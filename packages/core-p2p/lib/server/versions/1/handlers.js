@@ -148,12 +148,17 @@ exports.getStatus = {
   handler (request, h) {
     const lastBlock = container.resolvePlugin('blockchain').getLastBlock()
 
+    const header = lastBlock.getHeader()
+    header.reward = +header.reward.toString()
+    header.totalAmount = +header.totalAmount.toString()
+    header.totalFee = +header.totalFee.toString()
+
     return {
       success: true,
       height: lastBlock.data.height,
       forgingAllowed: slots.isForgingAllowed(),
       currentSlot: slots.getSlotNumber(),
-      header: lastBlock.getHeader()
+      header
     }
   }
 }
@@ -342,6 +347,19 @@ exports.getBlocks = {
       } else {
         blocks = await database.getBlocks(parseInt(reqBlockHeight) + 1, 400)
       }
+
+      blocks.forEach(b => {
+        b.reward = +b.reward.toString()
+        b.totalAmount = +b.totalAmount.toString()
+        b.totalFee = +b.totalFee.toString()
+
+        if (b.transactions) {
+          b.transactions.forEach(t => {
+            t.fee = +t.fee.toString()
+            t.amount = +t.amount.toString()
+          })
+        }
+      })
 
       logger.info(`${requestIp.getClientIp(request)} has downloaded ${blocks.length} blocks from height ${request.query.lastBlockHeight}`)
 

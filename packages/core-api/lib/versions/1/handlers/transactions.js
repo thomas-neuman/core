@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const transactionPool = container.resolvePlugin('transactionPool')
 
 const utils = require('../utils')
@@ -100,7 +101,7 @@ exports.showUnconfirmed = {
 	 * @return {Hapi.Response}
 	 */
 	handler(request, h) {
-		let transaction = transactionPool.getTransaction(request.query.id)
+		const transaction = transactionPool.getTransaction(request.query.id)
 
 		if (!transaction) {
 			return utils.respondWith('Transaction not found', true)

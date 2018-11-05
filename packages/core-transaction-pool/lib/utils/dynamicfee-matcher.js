@@ -1,5 +1,6 @@
 const container = require('@arkecosystem/core-container')
 const { feeManager, dynamicFeeManager } = require('@arkecosystem/crypto')
+
 const config = container.resolvePlugin('config')
 const logger = container.resolvePlugin('logger')
 

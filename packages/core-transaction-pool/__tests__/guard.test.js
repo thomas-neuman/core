@@ -136,7 +136,7 @@ describe('Transaction Guard', () => {
 					invalid: [4],
 					broadcast: [5],
 				},
-				errors: { '4': ['Invalid.'] },
+				errors: { 4: ['Invalid.'] },
 			})
 		})
 	})

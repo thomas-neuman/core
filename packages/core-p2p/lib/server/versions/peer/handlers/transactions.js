@@ -97,7 +97,7 @@ exports.search = {
 
 		// TODO: v1 compatibility patch. Add transformer and refactor later on
 		const transactions = rows.map(row => {
-			let transaction = Transaction.deserialize(row.serialized.toString('hex'))
+			const transaction = Transaction.deserialize(row.serialized.toString('hex'))
 			transaction.blockId = row.block_id
 			transaction.senderId = crypto.getAddress(transaction.senderPublicKey)
 			return transaction

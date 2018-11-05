@@ -1,9 +1,9 @@
 'use strict'
 
 const _ = require('lodash')
-const app = require('../__support__/setup')
 const { Bignum, crypto } = require('@arkecosystem/crypto')
 const { Block } = require('@arkecosystem/crypto').models
+const app = require('../__support__/setup')
 
 let genesisBlock
 let genesisSenders

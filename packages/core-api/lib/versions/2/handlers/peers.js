@@ -2,6 +2,7 @@
 
 const Boom = require('boom')
 const container = require('@arkecosystem/core-container')
+
 const blockchain = container.resolvePlugin('blockchain')
 const utils = require('../utils')
 const schema = require('../schema/peers')

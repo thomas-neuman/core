@@ -28,7 +28,7 @@ describe('Container', () => {
 	it('should add a new registration', () => {
 		container.register('fake', asValue('value'))
 
-		expect(container.container.registrations['fake']).toBeTruthy()
+		expect(container.container.registrations.fake).toBeTruthy()
 	})
 
 	it('should resolve a registration', () => {

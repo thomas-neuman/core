@@ -1,10 +1,11 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
-const blockchainMachine = require('./machines/blockchain')
 const immutable = require('immutable')
 const assert = require('assert')
+const blockchainMachine = require('./machines/blockchain')
 
 // Stores the last n blocks in ascending height. The amount of last blocks
 // can be configured by the option `state.maxLastBlocks`.

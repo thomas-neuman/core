@@ -7,10 +7,10 @@
  * @return {Object}
  */
 module.exports = (parameters, filters) => {
-	let where = []
+	const where = []
 
 	if (filters.hasOwnProperty('exact')) {
-		for (const elem of filters['exact']) {
+		for (const elem of filters.exact) {
 			if (typeof parameters[elem] !== 'undefined') {
 				where.push({
 					column: elem,
@@ -22,7 +22,7 @@ module.exports = (parameters, filters) => {
 	}
 
 	if (filters.hasOwnProperty('between')) {
-		for (const elem of filters['between']) {
+		for (const elem of filters.between) {
 			if (!parameters[elem]) {
 				continue
 			}
@@ -58,7 +58,7 @@ module.exports = (parameters, filters) => {
 	}
 
 	if (filters.hasOwnProperty('wildcard')) {
-		for (const elem of filters['wildcard']) {
+		for (const elem of filters.wildcard) {
 			if (parameters[elem]) {
 				where.push({
 					column: elem,

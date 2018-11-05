@@ -215,7 +215,7 @@ class Mem {
 	 */
 	getTransactionsOrderedByFee() {
 		if (!this.allIsSorted) {
-			this.all.sort(function(a, b) {
+			this.all.sort((a, b) => {
 				if (a.transaction.fee.isGreaterThan(b.transaction.fee)) {
 					return -1
 				}
@@ -247,7 +247,7 @@ class Mem {
 	getExpired(maxTransactionAge) {
 		const now = slots.getTime()
 
-		let transactions = []
+		const transactions = []
 
 		for (const memPoolTransaction of this.sortedByExpiration) {
 			if (memPoolTransaction.expireAt(maxTransactionAge) <= now) {
@@ -289,7 +289,7 @@ class Mem {
 	 * @return {Array of MemPoolTransaction}
 	 */
 	getDirtyAddedAndForget() {
-		let added = []
+		const added = []
 		this.dirty.added.forEach(id => added.push(this.byId[id]))
 		this.dirty.added.clear()
 		return added

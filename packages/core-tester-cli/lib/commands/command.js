@@ -59,7 +59,7 @@ module.exports = class Command {
 			quantity = this.options.number
 		}
 
-		let wallets = []
+		const wallets = []
 		for (let i = 0; i < quantity; i++) {
 			const passphrase = bip39.generateMnemonic()
 			const keys = crypto.getKeys(passphrase)
@@ -207,7 +207,7 @@ module.exports = class Command {
 
 		if (wait) {
 			const delaySeconds = await this.getTransactionDelaySeconds(transactions)
-			transactionType = (transactionType ? `${transactionType} ` : '') + 'transactions'
+			transactionType = `${transactionType ? `${transactionType} ` : ''}transactions`
 			logger.info(`Waiting ${delaySeconds} seconds to apply ${transactionType}`)
 			await delay(delaySeconds * 1000)
 		}

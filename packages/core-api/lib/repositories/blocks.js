@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const database = container.resolvePlugin('database')
 
 const buildFilterQuery = require('./utils/filter-query')
@@ -132,14 +133,13 @@ class BlocksRepository extends Repository {
 
 	__orderBy(parameters) {
 		if (!parameters.orderBy) return ['height', 'desc']
-		else {
-			let orderBy = parameters.orderBy.split(':').map(p => p.toLowerCase())
-			if (orderBy.length !== 2 || ['desc', 'asc'].includes(orderBy[1]) !== true) {
-				return ['height', 'desc']
-			}
 
-			return orderBy
+		const orderBy = parameters.orderBy.split(':').map(p => p.toLowerCase())
+		if (orderBy.length !== 2 || ['desc', 'asc'].includes(orderBy[1]) !== true) {
+			return ['height', 'desc']
 		}
+
+		return orderBy
 	}
 }
 

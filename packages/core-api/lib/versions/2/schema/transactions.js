@@ -1,9 +1,8 @@
 'use strict'
 
 const Joi = require('joi')
-const pagination = require('./pagination')
-
 const container = require('@arkecosystem/core-container')
+const pagination = require('./pagination')
 
 /**
  * @type {Object}

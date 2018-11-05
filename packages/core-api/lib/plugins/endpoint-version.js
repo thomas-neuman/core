@@ -1,6 +1,7 @@
 'use strict'
 
 const Boom = require('boom')
+
 const versionRegex = /^\/api\/v([0-9])\//
 
 /**
@@ -19,7 +20,7 @@ const register = async (server, options) => {
 				if (options.validVersions.includes(apiVersion)) {
 					request.pre.apiVersion = apiVersion
 				} else {
-					return Boom.badRequest('Invalid api-version! Valid values: ' + options.validVersions.join())
+					return Boom.badRequest(`Invalid api-version! Valid values: ${options.validVersions.join()}`)
 				}
 			}
 			return h.continue

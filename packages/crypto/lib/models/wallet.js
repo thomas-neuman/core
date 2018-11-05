@@ -185,7 +185,7 @@ module.exports = class Wallet {
 		const keysgroup = multisignature.keysgroup.map(publicKey => {
 			return publicKey.startsWith('+') ? publicKey.slice(1) : publicKey
 		})
-		let signatures = Object.values(transaction.signatures)
+		const signatures = Object.values(transaction.signatures)
 
 		let valid = 0
 		for (const publicKey of keysgroup) {

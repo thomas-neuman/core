@@ -245,7 +245,7 @@ module.exports = class Block {
 				result.errors.push(['Invalid block reward:', block.reward, 'expected:', constants.reward].join(' '))
 			}
 
-			let valid = this.verifySignature(block)
+			const valid = this.verifySignature(block)
 
 			if (!valid) {
 				result.errors.push('Failed to verify block signature')
@@ -272,7 +272,7 @@ module.exports = class Block {
 			}
 
 			let size = 0
-			let payloadHash = createHash('sha256')
+			const payloadHash = createHash('sha256')
 
 			if (this.headerOnly) {
 				if (this.transactionIds.length !== block.numberOfTransactions) {
@@ -284,12 +284,12 @@ module.exports = class Block {
 				}
 
 				// Checking if transactions of the block adds up to block values.
-				let appliedTransactions = {}
+				const appliedTransactions = {}
 				this.transactionIds.forEach(id => {
 					const bytes = Buffer.from(id, 'hex')
 
 					if (appliedTransactions[id]) {
-						result.errors.push('Encountered duplicate transaction: ' + id)
+						result.errors.push(`Encountered duplicate transaction: ${id}`)
 					}
 
 					appliedTransactions[id] = id
@@ -301,7 +301,7 @@ module.exports = class Block {
 				const invalidTransactions = this.transactions.filter(tx => !tx.verified)
 				if (invalidTransactions.length > 0) {
 					result.errors.push('One or more transactions are not verified:')
-					invalidTransactions.forEach(tx => result.errors.push('=> ' + tx.serialized))
+					invalidTransactions.forEach(tx => result.errors.push(`=> ${tx.serialized}`))
 				}
 
 				if (this.transactions.length !== block.numberOfTransactions) {
@@ -313,14 +313,14 @@ module.exports = class Block {
 				}
 
 				// Checking if transactions of the block adds up to block values.
-				let appliedTransactions = {}
+				const appliedTransactions = {}
 				let totalAmount = Bignum.ZERO
 				let totalFee = Bignum.ZERO
 				this.transactions.forEach(transaction => {
 					const bytes = Buffer.from(transaction.data.id, 'hex')
 
 					if (appliedTransactions[transaction.data.id]) {
-						result.errors.push('Encountered duplicate transaction: ' + transaction.data.id)
+						result.errors.push(`Encountered duplicate transaction: ${transaction.data.id}`)
 					}
 
 					appliedTransactions[transaction.data.id] = transaction.data
@@ -380,7 +380,7 @@ module.exports = class Block {
 		block.payloadHash = hexString.substring(104, 104 + 64)
 		block.generatorPublicKey = hexString.substring(104 + 64, 104 + 64 + 33 * 2)
 
-		const length = parseInt('0x' + hexString.substring(104 + 64 + 33 * 2 + 2, 104 + 64 + 33 * 2 + 4), 16) + 2
+		const length = parseInt(`0x${hexString.substring(104 + 64 + 33 * 2 + 2, 104 + 64 + 33 * 2 + 4)}`, 16) + 2
 		block.blockSignature = hexString.substring(104 + 64 + 33 * 2, 104 + 64 + 33 * 2 + length * 2)
 
 		if (headerOnly) return block
@@ -533,7 +533,7 @@ module.exports = class Block {
 
 	toJson() {
 		// Convert Bignums
-		let blockData = cloneDeepWith(this.data, (value, key) => {
+		const blockData = cloneDeepWith(this.data, (value, key) => {
 			if (['reward', 'totalAmount', 'totalFee'].indexOf(key) !== -1) {
 				return +value.toFixed()
 			}

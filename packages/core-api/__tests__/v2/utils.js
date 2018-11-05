@@ -138,7 +138,7 @@ class Helpers {
 	async createTransaction() {
 		client.setConfig(NetworkManager.findByName('testnet'))
 
-		let transaction = transactionBuilder
+		const transaction = transactionBuilder
 			.transfer()
 			.amount(1 * 1e8)
 			.recipientId('AZFEPTWnn2Sn8wDZgCRF8ohwKkrmk2AZi1')

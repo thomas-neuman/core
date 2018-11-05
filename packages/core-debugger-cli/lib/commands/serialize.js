@@ -4,7 +4,7 @@ const {
 const handleOutput = require('../utils/handle-output')
 
 module.exports = opts => {
-	let serialized =
+	const serialized =
 		opts.type === 'transaction'
 			? Transaction.serialize(JSON.parse(opts.data))
 			: Block[opts.full ? 'serializeFull' : 'serialize'](JSON.parse(opts.data))

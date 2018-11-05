@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const database = container.resolvePlugin('database')
 const blockchain = container.resolvePlugin('blockchain')
@@ -141,7 +142,7 @@ exports.delegates = {
 	 * @return {Hapi.Response}
 	 */
 	async handler(request, h) {
-		let account = await database.wallets.findById(request.query.address)
+		const account = await database.wallets.findById(request.query.address)
 
 		if (!account) {
 			return utils.respondWith('Address not found.', true)
@@ -180,7 +181,7 @@ exports.top = {
 
 		accounts = accounts.rows.map(account => ({
 			address: account.address,
-			balance: account.balance + '',
+			balance: `${account.balance}`,
 			publicKey: account.publicKey,
 		}))
 

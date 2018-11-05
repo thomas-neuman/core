@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const database = container.resolvePlugin('database')
 const blockchain = container.resolvePlugin('blockchain')
@@ -224,7 +225,7 @@ exports.nextForgers = {
 
 		return utils.respondWith({
 			currentBlock: lastBlock.data.height,
-			currentSlot: currentSlot,
+			currentSlot,
 			delegates: nextForgers,
 		})
 	},

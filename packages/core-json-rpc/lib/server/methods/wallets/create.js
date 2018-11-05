@@ -7,7 +7,7 @@ module.exports = {
 		const { publicKey } = crypto.getKeys(params.passphrase)
 
 		return {
-			publicKey: publicKey,
+			publicKey,
 			address: crypto.getAddress(publicKey),
 		}
 	},

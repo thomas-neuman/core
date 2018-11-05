@@ -26,7 +26,7 @@ class Processor {
 				return this.__createErrorResponse(id, -32601, 'The method does not exist / is not available.')
 			}
 
-			let schema = server.app.schemas[method]
+			const schema = server.app.schemas[method]
 
 			if (schema) {
 				const { error } = Joi.validate(params, schema)
@@ -49,7 +49,7 @@ class Processor {
 	}
 
 	async collection(server, payload) {
-		let results = []
+		const results = []
 
 		for (let i = 0; i < payload.length; i++) {
 			const result = await this.resource(server, payload[i])

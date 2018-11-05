@@ -31,7 +31,7 @@ module.exports = class Environment {
 	__exportPaths() {
 		const allowedKeys = ['config', 'data']
 
-		for (let [key, value] of Object.entries(this.variables)) {
+		for (const [key, value] of Object.entries(this.variables)) {
 			if (allowedKeys.includes(key)) {
 				process.env[`ARK_PATH_${key.toUpperCase()}`] = path.resolve(expandHomeDir(value))
 			}

@@ -1,8 +1,9 @@
 'use strict'
 
-const VoteCommand = require('../../lib/commands/vote')
 const axios = require('axios')
 const MockAdapter = require('axios-mock-adapter')
+const VoteCommand = require('../../lib/commands/vote')
+
 const mockAxios = new MockAdapter(axios)
 
 const defaultOpts = {

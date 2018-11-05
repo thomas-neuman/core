@@ -2,12 +2,13 @@
 
 const { slots } = require('@arkecosystem/crypto')
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 const config = container.resolvePlugin('config')
 const emitter = container.resolvePlugin('event-emitter')
+const delay = require('delay')
 const stateMachine = require('./state-machine')
 const Queue = require('./queue')
-const delay = require('delay')
 const { Block } = require('@arkecosystem/crypto').models
 
 module.exports = class Blockchain {
@@ -312,27 +313,25 @@ module.exports = class Blockchain {
 				this.state.setLastBlock(block)
 
 				return callback()
-			} else if (block.data.height > lastBlock.data.height + 1) {
+			}
+			if (block.data.height > lastBlock.data.height + 1) {
 				this.state.lastDownloadedBlock = lastBlock
 				return callback()
-			} else if (
+			}
+			if (
 				block.data.height < lastBlock.data.height ||
 				(block.data.height === lastBlock.data.height && block.data.id === lastBlock.data.id)
 			) {
 				this.state.lastDownloadedBlock = lastBlock
 				return callback()
-			} else {
-				this.state.lastDownloadedBlock = lastBlock
-				logger.info(
-					`Block ${block.data.height.toLocaleString()} disregarded because on a fork :knife_fork_plate:`,
-				)
-				return callback()
 			}
-		} else {
-			logger.warn(`Block ${block.data.height.toLocaleString()} disregarded because verification failed :scroll:`)
-			logger.warn(block.verification)
+			this.state.lastDownloadedBlock = lastBlock
+			logger.info(`Block ${block.data.height.toLocaleString()} disregarded because on a fork :knife_fork_plate:`)
 			return callback()
 		}
+		logger.warn(`Block ${block.data.height.toLocaleString()} disregarded because verification failed :scroll:`)
+		logger.warn(block.verification)
+		return callback()
 	}
 
 	/**

@@ -7,6 +7,7 @@ const delay = require('delay')
 const { slots } = require('@arkecosystem/crypto')
 
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const logger = container.resolvePlugin('logger')
 const emitter = container.resolvePlugin('event-emitter')
@@ -168,7 +169,7 @@ class Monitor {
 	 * @param {Boolean} fast
 	 */
 	async cleanPeers(fast = false, tracker = true) {
-		let keys = Object.keys(this.peers)
+		const keys = Object.keys(this.peers)
 		let count = 0
 		let unresponsivePeers = 0
 		const pingDelay = fast ? 1500 : config.peers.globalTimeout
@@ -367,7 +368,7 @@ class Monitor {
 		let allowedToForge = 0
 		let syncedPeers = 0
 
-		for (let peer of this.getPeers()) {
+		for (const peer of this.getPeers()) {
 			if (peer.state) {
 				if (peer.state.currentSlot === slot) {
 					syncedPeers++
@@ -606,7 +607,7 @@ class Monitor {
 
 			logger.info(`Your NTP connectivity has been verified by ${host}`)
 
-			logger.info('Local clock is off by ' + parseInt(time.t) + 'ms from NTP :alarm_clock:')
+			logger.info(`Local clock is off by ${parseInt(time.t)}ms from NTP :alarm_clock:`)
 		} catch (error) {
 			logger.error(error.message)
 		}

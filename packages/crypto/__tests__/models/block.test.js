@@ -453,7 +453,7 @@ describe('Models - Block', () => {
 		})
 		describe('apply v1 fix', () => {
 			it('should not process a common block', () => {
-				let mock = {
+				const mock = {
 					id: '187940162505562345',
 					blockSignature:
 						'3045022100a6605198e0f590c88798405bc76748d84e280d179bcefed2c993e70cded2a5dd022008c7f915b89fc4f3250fc4b481abb753c68f30ac351871c50bd6cfaf151370e8', // eslint-disable-line max-len
@@ -474,7 +474,7 @@ describe('Models - Block', () => {
 				expect(blk.data.id).toBe(mock.id)
 			})
 			it('should process a matching id', () => {
-				let mock2 = {
+				const mock2 = {
 					id: '8225244493039935740',
 					blockSignature:
 						'3045022100a6605198e0f590c88798405bc76748d84e280d179bcefed2c993e70cded2a5dd022008c7f915b89fc4f3250fc4b481abb753c68f30ac351871c50bd6cfaf151370e8', // eslint-disable-line max-len

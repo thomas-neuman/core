@@ -1,8 +1,9 @@
 'use strict'
 
-const TransferCommand = require('../../lib/commands/transfer')
 const axios = require('axios')
 const MockAdapter = require('axios-mock-adapter')
+const TransferCommand = require('../../lib/commands/transfer')
+
 const mockAxios = new MockAdapter(axios)
 
 const defaultOpts = {

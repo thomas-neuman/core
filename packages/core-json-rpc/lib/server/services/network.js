@@ -3,6 +3,7 @@ const { configManager } = require('@arkecosystem/crypto')
 const isReachable = require('is-reachable')
 const sample = require('lodash/sample')
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 const p2p = container.resolvePlugin('p2p')
 const config = container.resolvePlugin('config')

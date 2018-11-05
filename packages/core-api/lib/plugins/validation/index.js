@@ -44,11 +44,11 @@ function createErrorResponse(request, h, errors) {
  * @return {void}
  */
 function registerCustomFormats() {
-	let directory = path.resolve(__dirname, 'formats')
+	const directory = path.resolve(__dirname, 'formats')
 
 	fs.readdirSync(directory).forEach(file => {
 		if (file.indexOf('.js') !== -1) {
-			require(directory + '/' + file)(ajv)
+			require(`${directory}/${file}`)(ajv)
 		}
 	})
 }

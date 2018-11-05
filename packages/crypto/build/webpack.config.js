@@ -1,8 +1,8 @@
 const path = require('path')
 const merge = require('webpack-merge')
+const nodeExternals = require('webpack-node-externals')
 const pkg = require('../package.json')
 const base = require('./webpack.base')
-const nodeExternals = require('webpack-node-externals')
 
 const resolve = dir => path.resolve(__dirname, '..', dir)
 

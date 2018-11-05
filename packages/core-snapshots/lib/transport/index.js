@@ -1,4 +1,5 @@
 'use strict'
+
 const fs = require('fs-extra')
 const QueryStream = require('pg-query-stream')
 const JSONStream = require('JSONStream')
@@ -6,6 +7,7 @@ const msgpack = require('msgpack-lite')
 const zlib = require('zlib')
 
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 const emitter = container.resolvePlugin('event-emitter')
 const utils = require('../utils')
@@ -71,7 +73,7 @@ module.exports = {
 			if (data && data.length > 0) {
 				counter += data.length
 				const insert = options.database.pgp.helpers.insert(data, options.database.getColumnSet(table))
-				emitter.emit('progress', { value: counter, table: table })
+				emitter.emit('progress', { value: counter, table })
 				values = []
 				return options.database.db.none(insert)
 			}

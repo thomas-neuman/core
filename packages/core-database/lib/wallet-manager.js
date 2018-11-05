@@ -5,6 +5,7 @@ const { Wallet } = require('@arkecosystem/crypto').models
 const { TRANSACTION_TYPES } = require('@arkecosystem/crypto').constants
 const { roundCalculator } = require('@arkecosystem/core-utils')
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const logger = container.resolvePlugin('logger')
 
@@ -349,7 +350,7 @@ module.exports = class WalletManager {
 	 * @return {void}
 	 */
 	async revertBlock(block) {
-		let delegate = this.byPublicKey[block.data.generatorPublicKey]
+		const delegate = this.byPublicKey[block.data.generatorPublicKey]
 
 		if (!delegate) {
 			container.forceExit(
@@ -418,8 +419,8 @@ module.exports = class WalletManager {
 		} else if (this.__isException(data)) {
 			logger.warn('Transaction forcibly applied because it has been added as an exception:', data)
 		} else if (!sender.canApply(data)) {
-			logger.error(`Can't apply transaction for ${sender.address}: ` + JSON.stringify(data))
-			logger.debug('Audit: ' + JSON.stringify(sender.auditApply(data), null, 2))
+			logger.error(`Can't apply transaction for ${sender.address}: ${JSON.stringify(data)}`)
+			logger.debug(`Audit: ${JSON.stringify(sender.auditApply(data), null, 2)}`)
 			throw new Error(`Can't apply transaction ${data.id}`)
 		}
 

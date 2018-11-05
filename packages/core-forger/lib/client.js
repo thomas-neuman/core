@@ -1,8 +1,10 @@
 'use strict'
+
 const axios = require('axios')
 const sample = require('lodash/sample')
 const delay = require('delay')
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 const config = container.resolvePlugin('config')
 

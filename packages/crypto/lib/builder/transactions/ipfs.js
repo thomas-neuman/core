@@ -36,7 +36,7 @@ module.exports = class IPFSBuilder extends TransactionBuilder {
 		this.data.vendorFieldHex = Buffer.from(this.data.ipfsHash, type).toString('hex')
 
 		while (this.data.vendorFieldHex.length < 128) {
-			this.data.vendorFieldHex = '00' + this.data.vendorFieldHex
+			this.data.vendorFieldHex = `00${this.data.vendorFieldHex}`
 		}
 
 		// TODO is this right? when is vendorFieldHex.length is odd, it will add 1 more "0" than previous way

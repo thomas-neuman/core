@@ -1,5 +1,6 @@
 const prettyMs = require('pretty-ms')
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 let tracker = null
 

@@ -1,9 +1,9 @@
 'use strict'
 
 const BetterSqlite3 = require('better-sqlite3')
-const MemPoolTransaction = require('./mem-pool-transaction')
 const fs = require('fs-extra')
 const { Transaction } = require('@arkecosystem/crypto').models
+const MemPoolTransaction = require('./mem-pool-transaction')
 
 /**
  * A permanent storage (on-disk), supporting some basic functionalities required
@@ -78,7 +78,7 @@ class Storage {
 
 		this.db.prepare('BEGIN;').run()
 
-		ids.forEach(id => deleteStatement.run({ id: id }))
+		ids.forEach(id => deleteStatement.run({ id }))
 
 		this.db.prepare('COMMIT;').run()
 	}

@@ -5,6 +5,7 @@ const createHash = require('create-hash')
 const { crypto } = require('@arkecosystem/crypto')
 const { Block, Transaction } = require('@arkecosystem/crypto').models
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 
 module.exports = {

@@ -1,9 +1,9 @@
 const bip38 = require('bip38')
-const Bignum = require('../utils/bignum')
 const wif = require('wif')
 const { createHash } = require('crypto')
 const otplib = require('otplib')
 const forge = require('node-forge')
+const Bignum = require('../utils/bignum')
 
 const Block = require('./block')
 const crypto = require('../crypto/crypto')
@@ -98,7 +98,7 @@ module.exports = class Delegate {
 	 * Decrypt keys with one time password.
 	 */
 	decryptKeysWithOtp() {
-		let wifKey = this.__decryptData(this.encryptedKeys, this.otp)
+		const wifKey = this.__decryptData(this.encryptedKeys, this.otp)
 		this.keys = crypto.getKeysFromWIF(wifKey, this.network)
 		this.otp = null
 		this.encryptedKeys = null
@@ -145,7 +145,7 @@ module.exports = class Delegate {
 				this.decryptKeysWithOtp()
 			}
 
-			let block = Block.create(data, this.keys)
+			const block = Block.create(data, this.keys)
 
 			if (this.bip38) {
 				this.encryptKeysWithOtp()
@@ -162,8 +162,8 @@ module.exports = class Delegate {
 	 * @return {String}
 	 */
 	__encryptData(content, password) {
-		let derivedKey = forge.pkcs5.pbkdf2(password, this.otpSecret, this.iterations, this.keySize)
-		let cipher = forge.cipher.createCipher('AES-CBC', derivedKey)
+		const derivedKey = forge.pkcs5.pbkdf2(password, this.otpSecret, this.iterations, this.keySize)
+		const cipher = forge.cipher.createCipher('AES-CBC', derivedKey)
 		cipher.start({ iv: forge.util.decode64(this.otp) })
 		cipher.update(forge.util.createBuffer(content))
 		cipher.finish()
@@ -178,8 +178,8 @@ module.exports = class Delegate {
 	 * @return {String}
 	 */
 	__decryptData(cipherText, password) {
-		let derivedKey = forge.pkcs5.pbkdf2(password, this.otpSecret, this.iterations, this.keySize)
-		let decipher = forge.cipher.createDecipher('AES-CBC', derivedKey)
+		const derivedKey = forge.pkcs5.pbkdf2(password, this.otpSecret, this.iterations, this.keySize)
+		const decipher = forge.cipher.createDecipher('AES-CBC', derivedKey)
 		decipher.start({ iv: forge.util.decode64(this.otp) })
 		decipher.update(forge.util.createBuffer(forge.util.decode64(cipherText)))
 		decipher.finish()

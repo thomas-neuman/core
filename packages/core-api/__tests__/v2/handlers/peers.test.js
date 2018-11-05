@@ -1,10 +1,9 @@
 'use strict'
 
 require('@arkecosystem/core-test-utils/lib/matchers')
+const peers = require('@arkecosystem/core-test-utils/config/testnet/peers.json')
 const app = require('../../__support__/setup')
 const utils = require('../utils')
-
-const peers = require('@arkecosystem/core-test-utils/config/testnet/peers.json')
 
 beforeAll(async () => {
 	await app.setUp()

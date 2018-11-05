@@ -1,8 +1,8 @@
+const axios = require('axios')
+const MockAdapter = require('axios-mock-adapter')
 const request = require('./__support__/request')
 const app = require('./__support__/setup')
 
-const axios = require('axios')
-const MockAdapter = require('axios-mock-adapter')
 const axiosMock = new MockAdapter(axios)
 
 jest.mock('is-reachable', () => {
@@ -121,7 +121,7 @@ describe('Wallets', () => {
 
 	describe('POST wallets.bip38.*', () => {
 		let bip38wif
-		let userId = require('crypto')
+		const userId = require('crypto')
 			.randomBytes(32)
 			.toString('hex')
 

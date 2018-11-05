@@ -10,6 +10,7 @@ class Helpers {
 			version: '2.0.0',
 		}
 	}
+
 	async GET(endpoint, params = {}) {
 		return this.request('GET', endpoint, params)
 	}

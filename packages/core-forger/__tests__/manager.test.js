@@ -39,7 +39,7 @@ describe('Forger Manager', () => {
 		})
 
 		it('should be ok with configured delegates', async () => {
-			let secret = 'a secret'
+			const secret = 'a secret'
 			forgeManager.secrets = [secret]
 			forgeManager.client.getUsernames.mockReturnValue([])
 
@@ -223,7 +223,7 @@ describe('Forger Manager', () => {
 				quorum: 1,
 				nodeHeight: 100,
 				lastBlockId: '1233443',
-				overHeightBlockHeader: overHeightBlockHeader,
+				overHeightBlockHeader,
 				minimumNetworkReach: 10,
 				coldStart: false,
 			}

@@ -4,6 +4,7 @@ const sumBy = require('lodash/sumBy')
 const { configManager } = require('@arkecosystem/crypto')
 const { bignumify, delegateCalculator } = require('@arkecosystem/core-utils')
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const blockchain = container.resolvePlugin('blockchain')
 const database = container.resolvePlugin('database')

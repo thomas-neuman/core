@@ -9,7 +9,7 @@ const { transformResource, transformCollection } = require('../../utils/transfor
  * @return {Object}
  */
 const paginate = request => {
-	let pagination = {
+	const pagination = {
 		offset: (request.query.page - 1) * request.query.limit || 0,
 		limit: request.query.limit || 100,
 	}

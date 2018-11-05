@@ -1,4 +1,5 @@
 'use strict'
+
 const msgpack = require('msgpack-lite')
 const arkEncoders = require('./ark')
 

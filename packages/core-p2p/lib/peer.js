@@ -3,6 +3,7 @@
 const axios = require('axios')
 const util = require('util')
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 const config = container.resolvePlugin('config')
 
@@ -16,7 +17,7 @@ module.exports = class Peer {
 		this.ip = ip
 		this.port = port
 		this.ban = new Date().getTime()
-		this.url = (port % 443 === 0 ? 'https://' : 'http://') + `${ip}:${port}`
+		this.url = `${port % 443 === 0 ? 'https://' : 'http://'}${ip}:${port}`
 		this.state = {}
 		this.offences = []
 

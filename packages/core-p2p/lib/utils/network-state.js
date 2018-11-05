@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 
 const { slots } = require('@arkecosystem/crypto')
@@ -49,17 +50,17 @@ module.exports = (monitor, lastBlock) => {
 				peer.state.currentSlot === currentSlot &&
 				peer.state.forgingAllowed
 			) {
-				quorum = quorum + 1
+				quorum += 1
 			} else {
-				noQuorum = noQuorum + 1
+				noQuorum += 1
 			}
 		} else if (peer.state.height > lastBlock.data.height) {
-			noQuorum = noQuorum + 1
-			overHeightQuorum = overHeightQuorum + 1
+			noQuorum += 1
+			overHeightQuorum += 1
 			overHeightBlockHeader = peer.state.header
 		} else if (lastBlock.data.height - peer.state.height < 3) {
 			// suppose the max network elasticity accross 3 blocks
-			noQuorum = noQuorum + 1
+			noQuorum += 1
 		}
 	}
 

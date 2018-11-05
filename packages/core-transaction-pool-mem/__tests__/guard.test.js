@@ -5,6 +5,7 @@ const generateWallets = require('@arkecosystem/core-test-utils/lib/generators/wa
 const delegates = require('@arkecosystem/core-test-utils/fixtures/testnet/delegates')
 const app = require('./__support__/setup')
 const defaultConfig = require('../lib/defaults')
+
 const transferFee = 10000000
 
 let TransactionGuard

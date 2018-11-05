@@ -1,7 +1,7 @@
 'use strict'
 
-const app = require('./__support__/setup')
 const moment = require('moment')
+const app = require('./__support__/setup')
 
 let poolInterface
 

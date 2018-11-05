@@ -1,12 +1,12 @@
 'use strict'
 
-const app = require('./__support__/setup')
-
 const { Block, Transaction, Wallet } = require('@arkecosystem/crypto').models
 const { Bignum, crypto, transactionBuilder } = require('@arkecosystem/crypto')
 const { ARKTOSHI, TRANSACTION_TYPES } = require('@arkecosystem/crypto').constants
 
 const block3 = require('@arkecosystem/core-test-utils/fixtures/testnet/blocks.2-100')[1]
+const app = require('./__support__/setup')
+
 const block = new Block(block3)
 const walletData1 = require('./__fixtures__/wallets.json')[0]
 const walletData2 = require('./__fixtures__/wallets.json')[1]
@@ -539,7 +539,7 @@ describe('Wallet Manager', () => {
 				const voter = {
 					address: crypto.getAddress((i + 5).toString().repeat(66)),
 					balance: new Bignum((i + 1) * 1000 * ARKTOSHI),
-					publicKey: 'v' + delegateKey,
+					publicKey: `v${delegateKey}`,
 					vote: delegateKey,
 				}
 

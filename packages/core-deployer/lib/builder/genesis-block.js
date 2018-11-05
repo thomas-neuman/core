@@ -159,7 +159,7 @@ module.exports = class GenesisBlockBuilder {
 		let payloadLength = 0
 		let totalFee = 0
 		let totalAmount = 0
-		let payloadHash = createHash('sha256')
+		const payloadHash = createHash('sha256')
 
 		transactions.forEach(transaction => {
 			const bytes = crypto.getBytes(transaction)
@@ -171,8 +171,8 @@ module.exports = class GenesisBlockBuilder {
 
 		const block = {
 			version: 0,
-			totalAmount: totalAmount,
-			totalFee: totalFee,
+			totalAmount,
+			totalFee,
 			reward: 0,
 			payloadHash: payloadHash.digest().toString('hex'),
 			timestamp: data.timestamp,
@@ -201,8 +201,8 @@ module.exports = class GenesisBlockBuilder {
 	 * @return {String}
 	 */
 	__getBlockId(block) {
-		let hash = this.__getHash(block)
-		let blockBuffer = Buffer.alloc(8)
+		const hash = this.__getHash(block)
+		const blockBuffer = Buffer.alloc(8)
 		for (let i = 0; i < 8; i++) {
 			blockBuffer[i] = hash[7 - i]
 		}
@@ -217,7 +217,7 @@ module.exports = class GenesisBlockBuilder {
 	 * @return {String}
 	 */
 	__signBlock(block, keys) {
-		var hash = this.__getHash(block)
+		const hash = this.__getHash(block)
 		return crypto.signHash(hash, keys)
 	}
 
@@ -241,13 +241,13 @@ module.exports = class GenesisBlockBuilder {
 		const size = 4 + 4 + 4 + 8 + 4 + 4 + 8 + 8 + 4 + 4 + 4 + 32 + 32 + 64
 
 		try {
-			var byteBuffer = new ByteBuffer(size, true)
+			const byteBuffer = new ByteBuffer(size, true)
 			byteBuffer.writeInt(block.version)
 			byteBuffer.writeInt(block.timestamp)
 			byteBuffer.writeInt(block.height)
 
 			if (block.previousBlock) {
-				var previousBlock = Buffer.from(new Bignum(block.previousBlock).toString(16), 'hex')
+				const previousBlock = Buffer.from(new Bignum(block.previousBlock).toString(16), 'hex')
 
 				for (let i = 0; i < 8; i++) {
 					byteBuffer.writeByte(previousBlock[i])
@@ -265,18 +265,18 @@ module.exports = class GenesisBlockBuilder {
 
 			byteBuffer.writeInt(block.payloadLength)
 
-			var payloadHashBuffer = Buffer.from(block.payloadHash, 'hex')
+			const payloadHashBuffer = Buffer.from(block.payloadHash, 'hex')
 			for (let i = 0; i < payloadHashBuffer.length; i++) {
 				byteBuffer.writeByte(payloadHashBuffer[i])
 			}
 
-			var generatorPublicKeyBuffer = Buffer.from(block.generatorPublicKey, 'hex')
+			const generatorPublicKeyBuffer = Buffer.from(block.generatorPublicKey, 'hex')
 			for (let i = 0; i < generatorPublicKeyBuffer.length; i++) {
 				byteBuffer.writeByte(generatorPublicKeyBuffer[i])
 			}
 
 			if (block.blockSignature) {
-				var blockSignatureBuffer = Buffer.from(block.blockSignature, 'hex')
+				const blockSignatureBuffer = Buffer.from(block.blockSignature, 'hex')
 				for (let i = 0; i < blockSignatureBuffer.length; i++) {
 					byteBuffer.writeByte(blockSignatureBuffer[i])
 				}

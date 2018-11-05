@@ -2,6 +2,7 @@ const QueryFile = require('pg-promise').QueryFile
 const path = require('path')
 
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 
 module.exports = (directory, file) => {

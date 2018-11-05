@@ -2,15 +2,16 @@
 
 const { crypto, slots } = require('@arkecosystem/crypto')
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const logger = container.resolvePlugin('logger')
 const emitter = container.resolvePlugin('event-emitter')
-const WalletManager = require('./wallet-manager')
 const { Block } = require('@arkecosystem/crypto').models
 const { TRANSACTION_TYPES } = require('@arkecosystem/crypto').constants
 const { roundCalculator } = require('@arkecosystem/core-utils')
 const cloneDeep = require('lodash/cloneDeep')
 const assert = require('assert')
+const WalletManager = require('./wallet-manager')
 
 module.exports = class ConnectionInterface {
 	/**
@@ -246,10 +247,10 @@ module.exports = class ConnectionInterface {
 
 		try {
 			delegates.forEach(delegate => {
-				let producedBlocks = this.blocksInCurrentRound.filter(
+				const producedBlocks = this.blocksInCurrentRound.filter(
 					blockGenerator => blockGenerator.data.generatorPublicKey === delegate.publicKey,
 				)
-				let wallet = this.walletManager.findByPublicKey(delegate.publicKey)
+				const wallet = this.walletManager.findByPublicKey(delegate.publicKey)
 
 				if (producedBlocks.length === 0) {
 					wallet.missedBlocks++
@@ -488,7 +489,7 @@ module.exports = class ConnectionInterface {
 	async verifyTransaction(transaction) {
 		const senderId = crypto.getAddress(transaction.data.senderPublicKey, config.network.pubKeyHash)
 
-		let sender = this.walletManager.findByAddress(senderId) // should exist
+		const sender = this.walletManager.findByAddress(senderId) // should exist
 
 		if (!sender.publicKey) {
 			sender.publicKey = transaction.data.senderPublicKey
@@ -553,8 +554,8 @@ module.exports = class ConnectionInterface {
 	 * @return {void}
 	 */
 	async _registerRepositories() {
-		this['wallets'] = new (require('./repositories/wallets'))(this)
-		this['delegates'] = new (require('./repositories/delegates'))(this)
+		this.wallets = new (require('./repositories/wallets'))(this)
+		this.delegates = new (require('./repositories/delegates'))(this)
 	}
 
 	/**

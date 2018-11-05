@@ -2,6 +2,7 @@
 
 const rule = require('../../../../../lib/validation/rules/models/transactions/transfer')
 const { constants, transactionBuilder } = require('../../../../../lib')
+
 const address = 'APnDzjtDb1FthuqcLMeL5XMWb1uD1KeMGi'
 const fee = 1 * constants.ARKTOSHI
 const amount = 10 * constants.ARKTOSHI

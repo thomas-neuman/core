@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 
 const { slots } = require('@arkecosystem/crypto')
@@ -30,9 +31,9 @@ exports.current = {
 		return {
 			data: {
 				current: parseInt(height / maxActive),
-				reward: reward,
-				timestamp: timestamp,
-				delegates: delegates,
+				reward,
+				timestamp,
+				delegates,
 				currentForger: delegates[parseInt(timestamp / blockTime) % maxActive],
 				nextForger: delegates[(parseInt(timestamp / blockTime) + 1) % maxActive],
 				lastBlock: lastBlock.data,

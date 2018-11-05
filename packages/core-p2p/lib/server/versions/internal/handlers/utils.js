@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const emitter = container.resolvePlugin('event-emitter')
 
 const schema = require('../schemas/utils')

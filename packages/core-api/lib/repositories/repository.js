@@ -2,6 +2,7 @@
 
 const snakeCase = require('lodash/snakeCase')
 const container = require('@arkecosystem/core-container')
+
 const database = container.resolvePlugin('database')
 
 module.exports = class Repository {

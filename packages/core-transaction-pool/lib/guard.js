@@ -1,11 +1,13 @@
 const container = require('@arkecosystem/core-container')
 const crypto = require('@arkecosystem/crypto')
+
 const {
 	configManager,
 	models: { Transaction },
 	constants: { TRANSACTION_TYPES },
 } = crypto
 const isRecipientOnActiveNetwork = require('./utils/is-on-active-network')
+
 const database = container.resolvePlugin('database')
 const _ = require('lodash')
 
@@ -204,7 +206,7 @@ module.exports = class TransactionGuard {
 	 * Determine exccess transactions
 	 */
 	__determineExcessTransactions() {
-		for (let transaction of this.broadcast) {
+		for (const transaction of this.broadcast) {
 			const hasExceeded = this.pool.hasExceededMaxTransactions(transaction)
 
 			if (hasExceeded) {

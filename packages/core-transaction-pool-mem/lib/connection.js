@@ -1,15 +1,16 @@
 'use strict'
 
-const Mem = require('./mem')
-const MemPoolTransaction = require('./mem-pool-transaction')
-const Storage = require('./storage')
 const assert = require('assert')
 const container = require('@arkecosystem/core-container')
+
 const database = container.resolvePlugin('database')
 const emitter = container.resolvePlugin('event-emitter')
 const logger = container.resolvePlugin('logger')
 const { TRANSACTION_TYPES } = require('@arkecosystem/crypto').constants
 const { TransactionPoolInterface } = require('@arkecosystem/core-transaction-pool')
+const Storage = require('./storage')
+const MemPoolTransaction = require('./mem-pool-transaction')
+const Mem = require('./mem')
 
 /**
  * Transaction pool. It uses a hybrid storage - caching the data

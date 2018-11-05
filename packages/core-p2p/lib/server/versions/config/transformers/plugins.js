@@ -13,7 +13,7 @@ module.exports = config => {
 		'@arkecosystem/core-webhooks',
 	]
 
-	let result = {}
+	const result = {}
 
 	for (const [name, options] of Object.entries(config.plugins)) {
 		if (allowed.includes(name)) {

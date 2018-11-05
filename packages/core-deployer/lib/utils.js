@@ -34,7 +34,7 @@ exports.updateConfig = (file, values, configPath, forceOverwrite) => {
 		config = {}
 	}
 
-	for (let key in values) {
+	for (const key in values) {
 		_.set(config, key, values[key])
 	}
 

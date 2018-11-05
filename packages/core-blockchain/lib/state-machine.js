@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const emitter = container.resolvePlugin('event-emitter')
 const logger = container.resolvePlugin('logger')
@@ -177,9 +178,9 @@ blockchainMachine.actionMap = blockchain => {
 					await blockchain.database.deleteRound(1)
 				}
 
-				/*********************************
+				/** *******************************
 				 *  state machine data init      *
-				 ********************************/
+				 ******************************* */
 				const constants = config.getConstants(block.data.height)
 				state.setLastBlock(block)
 				state.lastDownloadedBlock = block
@@ -223,9 +224,9 @@ blockchainMachine.actionMap = blockchain => {
 					await blockchain.rollbackCurrentRound()
 				}
 
-				/*********************************
+				/** *******************************
 				 * database init                 *
-				 ********************************/
+				 ******************************* */
 				// SPV rebuild
 				const verifiedWalletsIntegrity = await blockchain.database.buildWallets(block.data.height)
 				if (!verifiedWalletsIntegrity && block.data.height > 1) {
@@ -277,8 +278,8 @@ blockchainMachine.actionMap = blockchain => {
 					blockchain.rebuildQueue.push(blocks)
 					blockchain.dispatch('DOWNLOADED')
 				} else {
-					logger.warn('Downloaded block not accepted: ' + JSON.stringify(blocks[0]))
-					logger.warn('Last block: ' + JSON.stringify(lastBlock.data))
+					logger.warn(`Downloaded block not accepted: ${JSON.stringify(blocks[0])}`)
+					logger.warn(`Last block: ${JSON.stringify(lastBlock.data)}`)
 
 					// disregard the whole block list
 					blockchain.dispatch('NOBLOCK')
@@ -318,8 +319,8 @@ blockchainMachine.actionMap = blockchain => {
 				} else {
 					state.lastDownloadedBlock = lastBlock
 
-					logger.warn('Downloaded block not accepted: ' + JSON.stringify(blocks[0]))
-					logger.warn('Last block: ' + JSON.stringify(lastBlock.data))
+					logger.warn(`Downloaded block not accepted: ${JSON.stringify(blocks[0])}`)
+					logger.warn(`Last block: ${JSON.stringify(lastBlock.data)}`)
 
 					state.forked = true
 					state.forkedBlock = blocks[0]

@@ -92,7 +92,7 @@ describe('Plugin Registrar', () => {
 				expect(plugins[char].plugin.deregister).toHaveBeenCalled()
 			})
 
-			expect(plugins['c'].deregister).not.toBeDefined()
+			expect(plugins.c.deregister).not.toBeDefined()
 		})
 
 		it('should deregister all the plugins in inverse order', async () => {

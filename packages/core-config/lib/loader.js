@@ -95,7 +95,7 @@ class ConfigLoader {
 
 		const formatName = file => path.basename(file.name, path.extname(file.name))
 
-		let configTree = {}
+		const configTree = {}
 
 		dirTree(basePath, { extensions: /\.(js|json)$/ }).children.forEach(entry => {
 			if (entry.type === 'file') {
@@ -116,7 +116,7 @@ class ConfigLoader {
 			return
 		}
 
-		let output = require(configFile)
+		const output = require(configFile)
 
 		for (let i = this.peers.sources.length - 1; i >= 0; i--) {
 			const source = this.peers.sources[i]

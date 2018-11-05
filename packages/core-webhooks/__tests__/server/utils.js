@@ -17,6 +17,7 @@ class Helpers {
 	expectStatus(response, code) {
 		expect(response.status).toBe(code)
 	}
+
 	expectResource(response) {
 		expect(response.data.data).toBeObject()
 	}

@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const database = container.resolvePlugin('database')
 
 const moment = require('moment')

@@ -1,11 +1,13 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 
+const moment = require('moment')
 const memory = require('./memory')
 const PoolWalletManager = require('./pool-wallet-manager')
-const moment = require('moment')
+
 const database = container.resolvePlugin('database')
 const dynamicFeeMatch = require('./utils/dynamicfee-matcher')
 

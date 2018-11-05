@@ -1,7 +1,9 @@
 'use strict'
+
 const container = require('@arkecosystem/core-container')
 const bs58check = require('bs58check')
 const { configManager } = require('@arkecosystem/crypto')
+
 const logger = container.resolvePlugin('logger')
 
 /**

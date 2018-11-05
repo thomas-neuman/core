@@ -1,10 +1,9 @@
 'use strict'
 
-const app = require('./__support__/setup')
-
 const { Block, Transaction, Wallet } = require('@arkecosystem/crypto').models
 const { Bignum, transactionBuilder } = require('@arkecosystem/crypto')
 const { ARKTOSHI, TRANSACTION_TYPES } = require('@arkecosystem/crypto').constants
+const app = require('./__support__/setup')
 
 let ConnectionInterface
 let connectionInterface

@@ -2,8 +2,10 @@
 
 const axios = require('axios')
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 const database = require('./database')
+
 const emitter = container.resolvePlugin('event-emitter')
 
 class WebhookManager {

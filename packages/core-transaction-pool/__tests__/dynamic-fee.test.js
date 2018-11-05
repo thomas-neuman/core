@@ -1,7 +1,7 @@
 'use strict'
 
-const app = require('./__support__/setup')
 const container = require('@arkecosystem/core-container')
+const app = require('./__support__/setup')
 const mockData = require('./__fixtures__/transactions')
 
 let dynamicFeeMatch

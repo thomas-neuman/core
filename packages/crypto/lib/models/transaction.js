@@ -1,8 +1,8 @@
 const bs58check = require('bs58check')
 const { cloneDeepWith } = require('lodash')
-const { Bignum } = require('../utils')
 const ByteBuffer = require('bytebuffer')
 const { createHash } = require('crypto')
+const { Bignum } = require('../utils')
 const crypto = require('../crypto/crypto')
 const configManager = require('../managers/config')
 const { TRANSACTION_TYPES } = require('../constants')
@@ -98,7 +98,7 @@ module.exports = class Transaction {
 		}
 
 		if (deserialized.type === TRANSACTION_TYPES.MULTI_SIGNATURE) {
-			deserialized.asset.multisignature.keysgroup = deserialized.asset.multisignature.keysgroup.map(k => '+' + k)
+			deserialized.asset.multisignature.keysgroup = deserialized.asset.multisignature.keysgroup.map(k => `+${k}`)
 		}
 
 		if (
@@ -162,7 +162,7 @@ module.exports = class Transaction {
 		bb.writeUInt64(+new Bignum(transaction.fee).toFixed())
 
 		if (transaction.vendorField) {
-			let vf = Buffer.from(transaction.vendorField, 'utf8')
+			const vf = Buffer.from(transaction.vendorField, 'utf8')
 			bb.writeByte(vf.length)
 			bb.append(vf)
 		} else if (transaction.vendorFieldHex) {
@@ -375,22 +375,20 @@ module.exports = class Transaction {
 		if (transaction.signature.length === 0) {
 			delete transaction.signature
 		} else {
-			const length1 = parseInt('0x' + transaction.signature.substring(2, 4), 16) + 2
+			const length1 = parseInt(`0x${transaction.signature.substring(2, 4)}`, 16) + 2
 			transaction.signature = hexString.substring(startOffset, startOffset + length1 * 2)
 			multioffset += length1 * 2
 			transaction.secondSignature = hexString.substring(startOffset + length1 * 2)
 
 			if (transaction.secondSignature.length === 0) {
 				delete transaction.secondSignature
+			} else if (transaction.secondSignature.slice(0, 2) === 'ff') {
+				// start of multisign
+				delete transaction.secondSignature
 			} else {
-				if (transaction.secondSignature.slice(0, 2) === 'ff') {
-					// start of multisign
-					delete transaction.secondSignature
-				} else {
-					const length2 = parseInt('0x' + transaction.secondSignature.substring(2, 4), 16) + 2
-					transaction.secondSignature = transaction.secondSignature.substring(0, length2 * 2)
-					multioffset += length2 * 2
-				}
+				const length2 = parseInt(`0x${transaction.secondSignature.substring(2, 4)}`, 16) + 2
+				transaction.secondSignature = transaction.secondSignature.substring(0, length2 * 2)
+				multioffset += length2 * 2
 			}
 
 			let signatures = hexString.substring(startOffset + multioffset)
@@ -407,7 +405,7 @@ module.exports = class Transaction {
 
 			let moreSignatures = true
 			while (moreSignatures) {
-				const mlength = parseInt('0x' + signatures.substring(2, 4), 16) + 2
+				const mlength = parseInt(`0x${signatures.substring(2, 4)}`, 16) + 2
 
 				if (mlength > 0) {
 					transaction.signatures.push(signatures.substring(0, mlength * 2))

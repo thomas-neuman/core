@@ -34,7 +34,7 @@ module.exports = class TransferCommand extends Command {
 		}
 
 		let totalDeductions = Bignum.ZERO
-		let transactionAmount = Command.__arkToArktoshi(this.options.amount || 2)
+		const transactionAmount = Command.__arkToArktoshi(this.options.amount || 2)
 
 		const transactions = this.generateTransactions(transactionAmount, wallets, null, true)
 		for (const transaction of transactions) {

@@ -47,7 +47,7 @@ const createRandomTx = type => {
 
 		case 4: // multisignature registration
 			const passphrases = [1, 2, 3].map(() => Math.random().toString(36))
-			const publicKeys = passphrases.map(passphrase => '+' + crypto.getKeys(passphrase).publicKey)
+			const publicKeys = passphrases.map(passphrase => `+${crypto.getKeys(passphrase).publicKey}`)
 			const min = Math.min(1, publicKeys.length)
 			const max = Math.max(1, publicKeys.length)
 			const minSignatures = Math.floor(Math.random() * (max - min)) + min
@@ -195,7 +195,7 @@ describe('Models - Transaction', () => {
 			},
 		]
 		txs.forEach(tx =>
-			it('txid: ' + tx.id, () => {
+			it(`txid: ${tx.id}`, () => {
 				const newtx = new Transaction(tx)
 				expect(newtx.id).toEqual(tx.id)
 			}),

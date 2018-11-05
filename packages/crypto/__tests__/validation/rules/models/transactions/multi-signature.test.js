@@ -2,6 +2,7 @@
 
 const rule = require('../../../../../lib/validation/rules/models/transactions/multi-signature')
 const { crypto, constants, transactionBuilder } = require('../../../../../lib')
+
 const passphrase = 'passphrase 1'
 const publicKey = '+03e8021105a6c202097e97e6c6d650942d913099bf6c9f14a6815df1023dde3b87'
 const passphrases = [passphrase, 'passphrase 2', 'passphrase 3']

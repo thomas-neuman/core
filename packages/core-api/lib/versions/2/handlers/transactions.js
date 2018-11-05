@@ -6,6 +6,7 @@ const { TRANSACTION_TYPES } = require('@arkecosystem/crypto').constants
 const { TransactionGuard } = require('@arkecosystem/core-transaction-pool')
 
 const container = require('@arkecosystem/core-container')
+
 const blockchain = container.resolvePlugin('blockchain')
 const config = container.resolvePlugin('config')
 const logger = container.resolvePlugin('logger')

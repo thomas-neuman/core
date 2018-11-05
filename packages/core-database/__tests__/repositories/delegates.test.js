@@ -1,6 +1,5 @@
 'use strict'
 
-const app = require('../__support__/setup')
 const {
 	Bignum,
 	crypto,
@@ -8,6 +7,7 @@ const {
 } = require('@arkecosystem/crypto')
 const { Block } = require('@arkecosystem/crypto').models
 const { delegateCalculator } = require('@arkecosystem/core-utils')
+const app = require('../__support__/setup')
 
 let genesisBlock
 let repository

@@ -1,9 +1,9 @@
+const axios = require('axios')
+const MockAdapter = require('axios-mock-adapter')
 const request = require('./__support__/request')
 
 const app = require('./__support__/setup')
 
-const axios = require('axios')
-const MockAdapter = require('axios-mock-adapter')
 const axiosMock = new MockAdapter(axios)
 
 jest.mock('is-reachable', () => {

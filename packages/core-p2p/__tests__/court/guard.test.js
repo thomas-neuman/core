@@ -1,7 +1,8 @@
 'use strict'
 
-const app = require('../__support__/setup')
 const moment = require('moment')
+const app = require('../__support__/setup')
+
 const ARK_ENV = process.env.ARK_ENV
 
 const defaults = require('../../lib/defaults')

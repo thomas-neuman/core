@@ -6,6 +6,7 @@ const generateWallets = require('@arkecosystem/core-test-utils/lib/generators/wa
 const delegates = require('@arkecosystem/core-test-utils/fixtures/testnet/delegates')
 const app = require('../../__support__/setup')
 const utils = require('../utils')
+
 const transferFee = 10000000
 
 let genesisBlock
@@ -212,7 +213,7 @@ describe('API 2.0 - Transactions', () => {
 					const data = response.data.data
 					expect(data).toBeArray()
 
-					let genesisTransactions = {}
+					const genesisTransactions = {}
 					genesisBlock.transactions.forEach(transaction => {
 						genesisTransactions[transaction.id] = true
 					})
@@ -236,7 +237,7 @@ describe('API 2.0 - Transactions', () => {
 					const data = response.data.data
 					expect(data).toBeArray()
 
-					let genesisTransactions = {}
+					const genesisTransactions = {}
 					genesisBlock.transactions.forEach(transaction => {
 						genesisTransactions[transaction.id] = true
 					})
@@ -290,7 +291,7 @@ describe('API 2.0 - Transactions', () => {
 						utils.expectTransaction(transaction)
 					})
 
-					let genesisTransactions = {}
+					const genesisTransactions = {}
 					genesisBlock.transactions.forEach(transaction => {
 						genesisTransactions[transaction.id] = true
 					})
@@ -324,7 +325,7 @@ describe('API 2.0 - Transactions', () => {
 						utils.expectTransaction(transaction)
 					})
 
-					let genesisTransactions = {}
+					const genesisTransactions = {}
 					genesisBlock.transactions.forEach(transaction => {
 						genesisTransactions[transaction.id] = true
 					})
@@ -358,7 +359,7 @@ describe('API 2.0 - Transactions', () => {
 						utils.expectTransaction(transaction)
 					})
 
-					let genesisTransactions = {}
+					const genesisTransactions = {}
 					genesisBlock.transactions.forEach(transaction => {
 						genesisTransactions[transaction.id] = true
 					})
@@ -394,7 +395,7 @@ describe('API 2.0 - Transactions', () => {
 						utils.expectTransaction(transaction)
 					})
 
-					let genesisTransactions = {}
+					const genesisTransactions = {}
 					genesisBlock.transactions.forEach(transaction => {
 						genesisTransactions[transaction.id] = true
 					})
@@ -428,7 +429,7 @@ describe('API 2.0 - Transactions', () => {
 						utils.expectTransaction(transaction)
 					})
 
-					let genesisTransactions = {}
+					const genesisTransactions = {}
 					genesisBlock.transactions.forEach(transaction => {
 						genesisTransactions[transaction.id] = true
 					})
@@ -462,7 +463,7 @@ describe('API 2.0 - Transactions', () => {
 						utils.expectTransaction(transaction)
 					})
 
-					let genesisTransactions = {}
+					const genesisTransactions = {}
 					genesisBlock.transactions.forEach(transaction => {
 						genesisTransactions[transaction.id] = true
 					})

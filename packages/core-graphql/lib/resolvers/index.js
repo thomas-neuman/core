@@ -1,10 +1,10 @@
 'use strict'
 
+const GraphQLTypes = require('graphql-tools-types')
 const queries = require('./queries')
 const Block = require('./relationship/block')
 const Transaction = require('./relationship/transaction')
 const Wallet = require('./relationship/wallet')
-const GraphQLTypes = require('graphql-tools-types')
 
 /**
  * Resolvers used by the executed schema when encountering a

@@ -3,6 +3,7 @@
 const container = require('@arkecosystem/core-container')
 
 let { Bignum } = require('@arkecosystem/crypto')
+
 Bignum = Bignum.clone({ DECIMAL_PLACES: 2 })
 
 /**

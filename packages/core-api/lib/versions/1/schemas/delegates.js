@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const lastBlock = container.resolvePlugin('blockchain').getLastBlock()
 
 /**

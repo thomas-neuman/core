@@ -6,7 +6,7 @@
  * @return {Object}
  */
 module.exports = config => {
-	let result = {}
+	const result = {}
 	const keys = [
 		'@arkecosystem/core-p2p',
 		'@arkecosystem/core-api',
@@ -17,7 +17,7 @@ module.exports = config => {
 
 	result[keys[0]] = config.plugins[keys[0]].port
 
-	for (let [name, options] of Object.entries(config.plugins)) {
+	for (const [name, options] of Object.entries(config.plugins)) {
 		if (keys.includes(name) && options.enabled) {
 			if (options.server && options.server.enabled) {
 				result[name] = options.server.port

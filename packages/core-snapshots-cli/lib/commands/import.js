@@ -1,5 +1,7 @@
 'use strict'
+
 const container = require('@arkecosystem/core-container')
+
 const snapshotManager = container.resolvePlugin('snapshots')
 const emitter = container.resolvePlugin('event-emitter')
 const _cliProgress = require('cli-progress')

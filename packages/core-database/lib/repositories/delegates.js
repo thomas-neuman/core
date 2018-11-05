@@ -1,8 +1,8 @@
 'use strict'
 
 const { delegateCalculator } = require('@arkecosystem/core-utils')
-const limitRows = require('./utils/limit-rows')
 const orderBy = require('lodash/orderBy')
+const limitRows = require('./utils/limit-rows')
 
 module.exports = class DelegatesRepository {
 	/**

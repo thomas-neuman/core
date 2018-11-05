@@ -1,15 +1,15 @@
 'use strict'
 
-const app = require('./__support__/setup')
 const { bignumify } = require('@arkecosystem/core-utils')
 const container = require('@arkecosystem/core-container')
 const crypto = require('@arkecosystem/crypto')
-const defaultConfig = require('../lib/defaults')
 const delay = require('delay')
 const delegatesSecrets = require('@arkecosystem/core-test-utils/fixtures/testnet/passphrases')
 const generateTransfer = require('@arkecosystem/core-test-utils/lib/generators/transactions/transfer')
-const mockData = require('./__fixtures__/transactions')
 const randomSeed = require('random-seed')
+const mockData = require('./__fixtures__/transactions')
+const defaultConfig = require('../lib/defaults')
+const app = require('./__support__/setup')
 
 const ARKTOSHI = crypto.constants.ARKTOSHI
 const TRANSACTION_TYPES = crypto.constants.TRANSACTION_TYPES
@@ -347,7 +347,7 @@ describe('Connection', () => {
 			connection.addTransaction(mockData.dummy5)
 			connection.addTransaction(mockData.dummy6)
 
-			let transactionIds = await connection.getTransactionIdsForForging(0, 6)
+			const transactionIds = await connection.getTransactionIdsForForging(0, 6)
 
 			expect(transactionIds).toBeArray()
 			expect(transactionIds[0]).toBe(mockData.dummy1.id)
@@ -527,7 +527,7 @@ describe('Connection', () => {
 
 	describe('stress', () => {
 		const fakeTransactionId = function(i) {
-			return 'id' + String(i) + 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+			return `id${String(i)}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
 		}
 
 		it('multiple additions and retrievals', () => {
@@ -536,7 +536,7 @@ describe('Connection', () => {
 			const testSize = connection.options.syncInterval * 2
 
 			for (let i = 0; i < testSize; i++) {
-				let transaction = new Transaction(mockData.dummy1)
+				const transaction = new Transaction(mockData.dummy1)
 				transaction.id = fakeTransactionId(i)
 				connection.addTransaction(transaction)
 
@@ -556,7 +556,7 @@ describe('Connection', () => {
 			}
 
 			for (let i = 0; i < testSize; i++) {
-				let transaction = new Transaction(mockData.dummy1)
+				const transaction = new Transaction(mockData.dummy1)
 				transaction.id = fakeTransactionId(i)
 				connection.removeTransaction(transaction)
 			}
@@ -564,12 +564,12 @@ describe('Connection', () => {
 
 		it('delete + add after sync', () => {
 			for (let i = 0; i < connection.options.syncInterval; i++) {
-				let transaction = new Transaction(mockData.dummy1)
+				const transaction = new Transaction(mockData.dummy1)
 				transaction.id = fakeTransactionId(i)
 				connection.addTransaction(transaction)
 			}
 
-			let transaction = new Transaction(mockData.dummy1)
+			const transaction = new Transaction(mockData.dummy1)
 			transaction.id = fakeTransactionId(0)
 			connection.removeTransaction(transaction)
 			connection.addTransaction(transaction)

@@ -1,9 +1,10 @@
-const request = require('./__support__/request')
 const { crypto } = require('@arkecosystem/crypto')
-const app = require('./__support__/setup')
 
 const axios = require('axios')
 const MockAdapter = require('axios-mock-adapter')
+const app = require('./__support__/setup')
+const request = require('./__support__/request')
+
 const axiosMock = new MockAdapter(axios)
 
 jest.mock('is-reachable', () => {

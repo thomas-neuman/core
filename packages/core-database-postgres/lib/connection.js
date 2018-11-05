@@ -8,6 +8,7 @@ const fs = require('fs')
 const { ConnectionInterface } = require('@arkecosystem/core-database')
 
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const logger = container.resolvePlugin('logger')
 const emitter = container.resolvePlugin('event-emitter')

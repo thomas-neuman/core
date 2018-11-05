@@ -3,6 +3,7 @@
 const promise = require('bluebird')
 const { migrations } = require('@arkecosystem/core-database-postgres')
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 const queries = require('./queries')
 const { rawQuery } = require('./utils')

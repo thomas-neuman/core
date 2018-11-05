@@ -1,9 +1,10 @@
 'use strict'
 
-const app = require('./__support__/setup')
-const block = require('./__fixtures__/block')
 const axios = require('axios')
 const MockAdapter = require('axios-mock-adapter')
+const app = require('./__support__/setup')
+const block = require('./__fixtures__/block')
+
 const mockAxios = new MockAdapter(axios)
 
 jest.setTimeout(30000)

@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 const database = require('./db')
 const utils = require('./utils')
@@ -112,7 +113,7 @@ module.exports = class SnapshotManager {
 	 * @return {JSONObject} with merged parameters, adding {lastBlock, database, meta {startHeight, endHeight, folder}, queries {blocks, transactions}}
 	 */
 	async __init(options, exportAction = false) {
-		let params = pick(options, [
+		const params = pick(options, [
 			'truncate',
 			'signatureVerify',
 			'blocks',

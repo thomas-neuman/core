@@ -4,6 +4,7 @@ const { crypto } = require('@arkecosystem/crypto')
 const { bignumify } = require('@arkecosystem/core-utils')
 
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const blockchain = container.resolvePlugin('blockchain')
 

@@ -4,6 +4,7 @@ const Boom = require('boom')
 const requestIp = require('request-ip')
 
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 
 const { Block } = require('@arkecosystem/crypto').models
@@ -24,7 +25,7 @@ exports.index = {
 		const database = container.resolvePlugin('database')
 		const blockchain = container.resolvePlugin('blockchain')
 
-		let height = parseInt(request.query.height)
+		const height = parseInt(request.query.height)
 		let data = []
 
 		if (Number.isNaN(height)) {

@@ -1,6 +1,7 @@
 'use strict'
 
 const Sequelize = require('sequelize')
+
 const Op = Sequelize.Op
 const Umzug = require('umzug')
 const path = require('path')
@@ -131,7 +132,7 @@ class Database {
 	 * @return {void}
 	 */
 	__registerModels() {
-		this.model = this.connection['import']('./model')
+		this.model = this.connection.import('./model')
 	}
 }
 

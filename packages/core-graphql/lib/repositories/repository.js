@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const database = container.resolvePlugin('database')
 
 module.exports = class Repository {
@@ -30,7 +31,7 @@ module.exports = class Repository {
 		offset = 0
 		const rows = await this._findMany(selectQuery)
 		return {
-			rows: rows,
+			rows,
 			count: +count,
 		}
 	}

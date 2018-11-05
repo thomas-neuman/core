@@ -30,7 +30,7 @@ module.exports = class Model {
 	transform(model) {
 		const mappings = Object.entries(this.getMappings())
 
-		let transformed = {}
+		const transformed = {}
 
 		for (const [original, mapping] of mappings) {
 			transformed[mapping] = model[original]

@@ -1,8 +1,8 @@
 'use strict'
 
+const orderBy = require('lodash/orderBy')
 const filterRows = require('./utils/filter-rows')
 const limitRows = require('./utils/limit-rows')
-const orderBy = require('lodash/orderBy')
 
 module.exports = class WalletsRepository {
 	/**
@@ -29,7 +29,7 @@ module.exports = class WalletsRepository {
 	findAll(params = {}) {
 		const wallets = this.all()
 
-		let [iteratee, order] = params.orderBy ? params.orderBy.split(':') : ['rate', 'asc']
+		const [iteratee, order] = params.orderBy ? params.orderBy.split(':') : ['rate', 'asc']
 
 		return {
 			rows: limitRows(orderBy(wallets, iteratee, order), params),

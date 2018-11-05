@@ -2,14 +2,13 @@
 
 const axios = require('axios')
 const MockAdapter = require('axios-mock-adapter')
+
 const axiosMock = new MockAdapter(axios)
 const delay = require('delay')
 
 const { asValue } = require('awilix')
 const { crypto, slots } = require('@arkecosystem/crypto')
 const { Block, Wallet } = require('@arkecosystem/crypto').models
-
-const app = require('./__support__/setup')
 
 let genesisBlock
 let container
@@ -20,6 +19,7 @@ let peerMock
 
 const blocks1to100 = require('@arkecosystem/core-test-utils/fixtures/testnet/blocks.2-100')
 const blocks101to155 = require('@arkecosystem/core-test-utils/fixtures/testnet/blocks.101-155')
+const app = require('./__support__/setup')
 
 beforeAll(async () => {
 	container = await app.setUp()

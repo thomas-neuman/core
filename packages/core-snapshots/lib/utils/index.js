@@ -63,7 +63,7 @@ exports.getSnapshotInfo = folder => {
 }
 
 exports.setSnapshotInfo = (options, lastBlock) => {
-	let meta = {
+	const meta = {
 		startHeight: options.start !== -1 ? options.start : 1,
 		endHeight: options.end !== -1 ? options.end : lastBlock.height,
 		codec: options.codec,

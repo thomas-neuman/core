@@ -3,6 +3,7 @@
 const winston = require('winston')
 const { LoggerInterface } = require('@arkecosystem/core-logger')
 require('colors')
+
 let tracker = null
 
 module.exports = class Logger extends LoggerInterface {
@@ -39,11 +40,11 @@ module.exports = class Logger extends LoggerInterface {
 		line += title.blue
 		line += ' ['
 		line += '='.repeat(Math.floor(progress / 2)).green
-		line += ' '.repeat(Math.ceil(50 - progress / 2)) + '] '
-		line += progress.toFixed(figures) + '% '
+		line += `${' '.repeat(Math.ceil(50 - progress / 2))}] `
+		line += `${progress.toFixed(figures)}% `
 
 		if (postTitle) {
-			line += postTitle + '                     '
+			line += `${postTitle}                     `
 		}
 
 		process.stdout.write(line)
@@ -69,8 +70,8 @@ module.exports = class Logger extends LoggerInterface {
 		line += title.blue
 		line += ' ['
 		line += '='.repeat(progress / 2).green
-		line += ' '.repeat(50 - progress / 2) + '] '
-		line += progress.toFixed(0) + '% '
+		line += `${' '.repeat(50 - progress / 2)}] `
+		line += `${progress.toFixed(0)}% `
 
 		if (current === max) {
 			line += '✔️'

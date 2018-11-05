@@ -120,7 +120,7 @@ exports.getTransactionsFromIds = {
 
 			// TODO: v1 compatibility patch. Add transformer and refactor later on
 			const transactions = await rows.map(row => {
-				let transaction = Transaction.deserialize(row.serialized.toString('hex'))
+				const transaction = Transaction.deserialize(row.serialized.toString('hex'))
 				transaction.blockId = row.block_id
 				transaction.senderId = crypto.getAddress(transaction.senderPublicKey)
 				return transaction
@@ -280,7 +280,7 @@ exports.postTransactions = {
 			return {
 				success: false,
 				message: error,
-				error: error,
+				error,
 			}
 		}
 
@@ -355,7 +355,7 @@ exports.getBlocks = {
 		try {
 			const database = container.resolvePlugin('database')
 			const blockchain = container.resolvePlugin('blockchain')
-			let reqBlockHeight = parseInt(request.query.lastBlockHeight)
+			const reqBlockHeight = parseInt(request.query.lastBlockHeight)
 			let blocks = []
 			if (!request.query.lastBlockHeight || Number.isNaN(reqBlockHeight)) {
 				blocks.push(blockchain.getLastBlock())
@@ -373,7 +373,7 @@ exports.getBlocks = {
 		} catch (error) {
 			logger.error(error.stack)
 
-			return h.response({ success: false, error: error }).code(500)
+			return h.response({ success: false, error }).code(500)
 		}
 	},
 }

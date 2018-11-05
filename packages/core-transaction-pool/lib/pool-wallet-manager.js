@@ -1,7 +1,9 @@
 'use strict'
+
 const container = require('@arkecosystem/core-container')
 const { Wallet } = require('@arkecosystem/crypto').models
 const { WalletManager } = require('@arkecosystem/core-database')
+
 const logger = container.resolvePlugin('logger')
 const database = container.resolvePlugin('database')
 const config = container.resolvePlugin('config')
@@ -101,8 +103,8 @@ module.exports = class PoolWalletManager extends WalletManager {
 		} else if (this.__isException(data)) {
 			logger.warn('Transaction forcibly applied because it has been added as an exception:', data)
 		} else if (!sender.canApply(data)) {
-			logger.error(`[PoolWalletManager] Can't apply transaction for ${sender.address}: ` + JSON.stringify(data))
-			logger.debug('[PoolWalletManager] Audit: ' + JSON.stringify(sender.auditApply(data), null, 2))
+			logger.error(`[PoolWalletManager] Can't apply transaction for ${sender.address}: ${JSON.stringify(data)}`)
+			logger.debug(`[PoolWalletManager] Audit: ${JSON.stringify(sender.auditApply(data), null, 2)}`)
 			throw new Error(`[PoolWalletManager] Can't apply transaction ${data.id}`)
 		}
 

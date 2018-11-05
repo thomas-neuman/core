@@ -3,9 +3,11 @@ const {
 	models: { Transaction },
 } = require('@arkecosystem/crypto')
 const container = require('@arkecosystem/core-container')
+
 const logger = container.resolvePlugin('logger')
 const config = container.resolvePlugin('config')
 const queries = require('./queries')
+
 const genesisWallets = config.genesisBlock.transactions.map(tx => tx.senderId)
 
 module.exports = class SPV {
@@ -112,7 +114,7 @@ module.exports = class SPV {
 		const transactions = await this.query.many(queries.spv.sentTransactions)
 
 		for (const transaction of transactions) {
-			let wallet = this.walletManager.findByPublicKey(transaction.senderPublicKey)
+			const wallet = this.walletManager.findByPublicKey(transaction.senderPublicKey)
 			wallet.balance = wallet.balance.minus(transaction.amount).minus(transaction.fee)
 
 			if (wallet.balance.isLessThan(0) && !this.isGenesis(wallet)) {

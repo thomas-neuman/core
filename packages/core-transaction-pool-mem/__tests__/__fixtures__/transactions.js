@@ -1,4 +1,5 @@
 const ark = require('@arkecosystem/crypto')
+
 const { slots } = ark
 const { Transaction } = ark.models
 

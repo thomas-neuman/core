@@ -14,7 +14,7 @@ module.exports = {
 			return {
 				publicKey: keys.publicKey,
 				address: crypto.getAddress(keys.publicKey),
-				wif: wif,
+				wif,
 			}
 		} catch (error) {
 			const { publicKey, privateKey } = crypto.getKeys(bip39.generateMnemonic())
@@ -23,7 +23,7 @@ module.exports = {
 			await database.set(utils.sha256(Buffer.from(params.userId)).toString('hex'), encryptedWif)
 
 			return {
-				publicKey: publicKey,
+				publicKey,
 				address: crypto.getAddress(publicKey),
 				wif: encryptedWif,
 			}

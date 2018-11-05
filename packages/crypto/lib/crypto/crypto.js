@@ -39,8 +39,8 @@ class Crypto {
 			case 1: {
 				// Signature
 				const { signature } = transaction.asset
-				let bb = new ByteBuffer(33, true)
-				let publicKeyBuffer = Buffer.from(signature.publicKey, 'hex')
+				const bb = new ByteBuffer(33, true)
+				const publicKeyBuffer = Buffer.from(signature.publicKey, 'hex')
 
 				for (let i = 0; i < publicKeyBuffer.length; i++) {
 					bb.writeByte(publicKeyBuffer[i])
@@ -71,8 +71,8 @@ class Crypto {
 
 			case 4: {
 				// Multi-Signature
-				let keysgroupBuffer = Buffer.from(transaction.asset.multisignature.keysgroup.join(''), 'utf8')
-				let bb = new ByteBuffer(1 + 1 + keysgroupBuffer.length, true)
+				const keysgroupBuffer = Buffer.from(transaction.asset.multisignature.keysgroup.join(''), 'utf8')
+				const bb = new ByteBuffer(1 + 1 + keysgroupBuffer.length, true)
 
 				bb.writeByte(transaction.asset.multisignature.min)
 				bb.writeByte(transaction.asset.multisignature.lifetime)
@@ -89,11 +89,11 @@ class Crypto {
 			}
 		}
 
-		let bb = new ByteBuffer(1 + 4 + 32 + 8 + 8 + 21 + 64 + 64 + 64 + assetSize, true)
+		const bb = new ByteBuffer(1 + 4 + 32 + 8 + 8 + 21 + 64 + 64 + 64 + assetSize, true)
 		bb.writeByte(transaction.type)
 		bb.writeInt(transaction.timestamp)
 
-		let senderPublicKeyBuffer = Buffer.from(transaction.senderPublicKey, 'hex')
+		const senderPublicKeyBuffer = Buffer.from(transaction.senderPublicKey, 'hex')
 		for (let i = 0; i < senderPublicKeyBuffer.length; i++) {
 			bb.writeByte(senderPublicKeyBuffer[i])
 		}
@@ -103,7 +103,7 @@ class Crypto {
 		const isBrokenTransaction = Object.values(transactionIdFixTable).includes(transaction.id)
 		const correctType = transaction.type !== 1 && transaction.type !== 4
 		if (transaction.recipientId && (isBrokenTransaction || correctType)) {
-			let recipient = bs58check.decode(transaction.recipientId)
+			const recipient = bs58check.decode(transaction.recipientId)
 			for (let i = 0; i < recipient.length; i++) {
 				bb.writeByte(recipient[i])
 			}
@@ -114,8 +114,8 @@ class Crypto {
 		}
 
 		if (transaction.vendorFieldHex) {
-			let vf = Buffer.from(transaction.vendorFieldHex, 'hex')
-			let fillstart = vf.length
+			const vf = Buffer.from(transaction.vendorFieldHex, 'hex')
+			const fillstart = vf.length
 			for (let i = 0; i < fillstart; i++) {
 				bb.writeByte(vf[i])
 			}
@@ -123,8 +123,8 @@ class Crypto {
 				bb.writeByte(0)
 			}
 		} else if (transaction.vendorField) {
-			let vf = Buffer.from(transaction.vendorField)
-			let fillstart = vf.length
+			const vf = Buffer.from(transaction.vendorField)
+			const fillstart = vf.length
 			for (let i = 0; i < fillstart; i++) {
 				bb.writeByte(vf[i])
 			}
@@ -147,22 +147,22 @@ class Crypto {
 		}
 
 		if (!skipSignature && transaction.signature) {
-			let signatureBuffer = Buffer.from(transaction.signature, 'hex')
+			const signatureBuffer = Buffer.from(transaction.signature, 'hex')
 			for (let i = 0; i < signatureBuffer.length; i++) {
 				bb.writeByte(signatureBuffer[i])
 			}
 		}
 
 		if (!skipSecondSignature && transaction.signSignature) {
-			let signSignatureBuffer = Buffer.from(transaction.signSignature, 'hex')
+			const signSignatureBuffer = Buffer.from(transaction.signSignature, 'hex')
 			for (let i = 0; i < signSignatureBuffer.length; i++) {
 				bb.writeByte(signSignatureBuffer[i])
 			}
 		}
 
 		bb.flip()
-		let arrayBuffer = new Uint8Array(bb.toArrayBuffer())
-		let buffer = []
+		const arrayBuffer = new Uint8Array(bb.toArrayBuffer())
+		const buffer = []
 
 		for (let i = 0; i < arrayBuffer.length; i++) {
 			buffer[i] = arrayBuffer[i]
@@ -398,7 +398,7 @@ class Crypto {
 	 * @return {String}
 	 */
 	getAddress(publicKey, networkVersion) {
-		var pubKeyRegex = /^[0-9A-Fa-f]{66}$/
+		const pubKeyRegex = /^[0-9A-Fa-f]{66}$/
 		if (!pubKeyRegex.test(publicKey)) {
 			throw new Error(`publicKey '${publicKey}' is invalid`)
 		}
@@ -428,7 +428,7 @@ class Crypto {
 		}
 
 		try {
-			var decode = bs58check.decode(address)
+			const decode = bs58check.decode(address)
 			return decode[0] === networkVersion
 		} catch (e) {
 			return false

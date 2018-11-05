@@ -1,6 +1,7 @@
 'use strict'
 
 const container = require('@arkecosystem/core-container')
+
 const config = container.resolvePlugin('config')
 const logger = container.resolvePlugin('logger')
 
@@ -118,7 +119,8 @@ class Guard {
 			logger.debug(`${peer.ip} still suspended for ${untilDiff.humanize()} because of "${suspendedPeer.reason}".`)
 
 			return true
-		} else if (suspendedPeer) {
+		}
+		if (suspendedPeer) {
 			delete this.suspensions[peer.ip]
 		}
 

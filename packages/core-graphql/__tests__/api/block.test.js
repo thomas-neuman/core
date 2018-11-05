@@ -5,27 +5,27 @@ require('@arkecosystem/core-test-utils/lib/matchers')
 let genesisBlock
 
 beforeAll(async () => {
-  await app.setUp()
+	await app.setUp()
 
-  genesisBlock = require('@arkecosystem/core-test-utils/config/testnet/genesisBlock.json')
+	genesisBlock = require('@arkecosystem/core-test-utils/config/testnet/genesisBlock.json')
 })
 
 afterAll(() => {
-  app.tearDown()
+	app.tearDown()
 })
 
 describe('GraphQL API { block }', () => {
-  describe('GraphQL queries for Block', () => {
-    it('should get a block by its id', async () => {
-      const query = `{ block(id:"${genesisBlock.id}") { id } }`
-      const response = await utils.request(query)
+	describe('GraphQL queries for Block', () => {
+		it('should get a block by its id', async () => {
+			const query = `{ block(id:"${genesisBlock.id}") { id } }`
+			const response = await utils.request(query)
 
-      expect(response).toBeSuccessfulResponse()
+			expect(response).toBeSuccessfulResponse()
 
-      const data = response.data.data
-      expect(data).toBeObject()
-      expect(data.block).toBeObject()
-      expect(data.block.id).toBe(genesisBlock.id)
-    })
-  })
+			const data = response.data.data
+			expect(data).toBeObject()
+			expect(data.block).toBeObject()
+			expect(data.block.id).toBe(genesisBlock.id)
+		})
+	})
 })

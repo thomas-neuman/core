@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * Logic used by our orderBy input
@@ -7,11 +7,11 @@
  * @return {String}
  */
 module.exports = (parameter, defaultValue) => {
-  let order
+	let order
 
-  if (parameter) {
-    order = `${parameter.field}:${parameter.direction.toLowerCase()}`
-  }
+	if (parameter) {
+		order = `${parameter.field}:${parameter.direction.toLowerCase()}`
+	}
 
-  return order || defaultValue
+	return order || defaultValue
 }

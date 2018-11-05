@@ -3,14 +3,14 @@
 const { createServer, mountServer, plugins } = require('@arkecosystem/core-http-utils')
 const logger = require('@arkecosystem/core-container').resolvePlugin('logger')
 
-function registerMethods (server, group) {
-  Object.values(require(`./methods/${group}`)).forEach(method => {
-    server.app.schemas[method.name] = method.schema
+function registerMethods(server, group) {
+	Object.values(require(`./methods/${group}`)).forEach(method => {
+		server.app.schemas[method.name] = method.schema
 
-    delete method.schema
+		delete method.schema
 
-    server.method(method)
-  })
+		server.method(method)
+	})
 }
 
 /**
@@ -18,33 +18,33 @@ function registerMethods (server, group) {
  * @param  {Object} options
  * @return {Hapi.Server}
  */
-module.exports = async (options) => {
-  if (options.allowRemote) {
-    logger.warn('JSON-RPC server allows remote connections, this is a potential security risk :warning:')
-  }
+module.exports = async options => {
+	if (options.allowRemote) {
+		logger.warn('JSON-RPC server allows remote connections, this is a potential security risk :warning:')
+	}
 
-  const server = await createServer({
-    host: options.host,
-    port: options.port
-  })
+	const server = await createServer({
+		host: options.host,
+		port: options.port,
+	})
 
-  server.app.schemas = {}
+	server.app.schemas = {}
 
-  if (!options.allowRemote) {
-    await server.register({
-      plugin: plugins.whitelist,
-      options: {
-        whitelist: options.whitelist,
-        name: 'JSON-RPC'
-      }
-    })
-  }
+	if (!options.allowRemote) {
+		await server.register({
+			plugin: plugins.whitelist,
+			options: {
+				whitelist: options.whitelist,
+				name: 'JSON-RPC',
+			},
+		})
+	}
 
-  registerMethods(server, 'wallets')
-  registerMethods(server, 'blocks')
-  registerMethods(server, 'transactions')
+	registerMethods(server, 'wallets')
+	registerMethods(server, 'blocks')
+	registerMethods(server, 'transactions')
 
-  server.route(require('./handler'))
+	server.route(require('./handler'))
 
-  return mountServer('JSON-RPC', server)
+	return mountServer('JSON-RPC', server)
 }

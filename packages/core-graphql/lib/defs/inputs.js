@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * Template for the inputs of our schema's types.

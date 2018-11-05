@@ -9,12 +9,12 @@ const { bignumify } = require('@arkecosystem/core-utils')
  * @param  {*}  value
  * @return {Boolean}
  */
-function isBoolean (value) {
-  try {
-    return (value.toLowerCase() === 'true' || value.toLowerCase() === 'false')
-  } catch (e) {
-    return false
-  }
+function isBoolean(value) {
+	try {
+		return value.toLowerCase() === 'true' || value.toLowerCase() === 'false'
+	} catch (e) {
+		return false
+	}
 }
 
 /**
@@ -22,8 +22,8 @@ function isBoolean (value) {
  * @param  {*}  value
  * @return {Boolean}
  */
-function isNumber (value) {
-  return !isNaN(value)
+function isNumber(value) {
+	return !isNaN(value)
 }
 
 /**
@@ -35,37 +35,36 @@ function isNumber (value) {
  * @return {void}
  */
 const register = async (server, options) => {
-  server.ext({
-    type: 'onPreHandler',
-    method: (request, h) => {
-      const query = request.query
+	server.ext({
+		type: 'onPreHandler',
+		method: (request, h) => {
+			const query = request.query
 
-      Object.keys(query).map((key, index) => {
-        // Special fields that should always be a "string"
-        if (key === 'id' || key === 'blockId' || key === 'previousBlock') {
-          query[key] = query[key]
-        }
-        // Booleans
-        else if (isBoolean(query[key])) {
-          query[key] = query[key].toLowerCase() === 'true'
-        }
-        // Integers - making sure "BigNumbers" are kept as strings
-        else if (isNumber(query[key])) {
-          query[key] = (query[key] == Number(query[key]))
-            ? Number(query[key])
-            : bignumify(query[key]).toString()
-        }
-        // Strings
-        else {
-          query[key] = query[key]
-        }
-      })
+			Object.keys(query).map((key, index) => {
+				// Special fields that should always be a "string"
+				if (key === 'id' || key === 'blockId' || key === 'previousBlock') {
+					query[key] = query[key]
+				}
+				// Booleans
+				else if (isBoolean(query[key])) {
+					query[key] = query[key].toLowerCase() === 'true'
+				}
+				// Integers - making sure "BigNumbers" are kept as strings
+				else if (isNumber(query[key])) {
+					query[key] =
+						query[key] == Number(query[key]) ? Number(query[key]) : bignumify(query[key]).toString()
+				}
+				// Strings
+				else {
+					query[key] = query[key]
+				}
+			})
 
-      request.query = query
+			request.query = query
 
-      return h.continue
-    }
-  })
+			return h.continue
+		},
+	})
 }
 
 /**
@@ -73,7 +72,7 @@ const register = async (server, options) => {
  * @type {Object}
  */
 exports.plugin = {
-  name: 'core-caster',
-  version: '0.1.0',
-  register
+	name: 'core-caster',
+	version: '0.1.0',
+	register,
 }

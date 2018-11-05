@@ -4,19 +4,16 @@ const container = require('@arkecosystem/core-container')
 const containerHelper = require('@arkecosystem/core-test-utils/lib/helpers/container')
 
 exports.setUp = async () => {
-  jest.setTimeout(60000)
+	jest.setTimeout(60000)
 
-  process.env.ARK_SKIP_BLOCKCHAIN = true
+	process.env.ARK_SKIP_BLOCKCHAIN = true
 
-  await containerHelper.setUp({
-    exit: '@arkecosystem/core-blockchain',
-    exclude: [
-      '@arkecosystem/core-p2p',
-      '@arkecosystem/core-transaction-pool-mem'
-    ]
-  })
+	await containerHelper.setUp({
+		exit: '@arkecosystem/core-blockchain',
+		exclude: ['@arkecosystem/core-p2p', '@arkecosystem/core-transaction-pool-mem'],
+	})
 }
 
 exports.tearDown = async () => {
-  await container.tearDown()
+	await container.tearDown()
 }

@@ -12,17 +12,20 @@ Bignum = Bignum.clone({ DECIMAL_PLACES: 2 })
  * @return {Number} Approval, with 2 decimals
  */
 exports.calculateApproval = (delegate, height) => {
-  const config = container.resolvePlugin('config')
+	const config = container.resolvePlugin('config')
 
-  if (!height) {
-    height = container.resolvePlugin('blockchain').getLastBlock().data.height
-  }
+	if (!height) {
+		height = container.resolvePlugin('blockchain').getLastBlock().data.height
+	}
 
-  const constants = config.getConstants(height)
-  const totalSupply = new Bignum(config.genesisBlock.totalAmount).plus((height - constants.height) * constants.reward)
-  const voteBalance = new Bignum(delegate.voteBalance)
+	const constants = config.getConstants(height)
+	const totalSupply = new Bignum(config.genesisBlock.totalAmount).plus((height - constants.height) * constants.reward)
+	const voteBalance = new Bignum(delegate.voteBalance)
 
-  return +voteBalance.times(100).dividedBy(totalSupply).toFixed(2)
+	return +voteBalance
+		.times(100)
+		.dividedBy(totalSupply)
+		.toFixed(2)
 }
 
 /**
@@ -31,12 +34,12 @@ exports.calculateApproval = (delegate, height) => {
  * @return {Number} Productivity, with 2 decimals
  */
 exports.calculateProductivity = delegate => {
-  const missedBlocks = +delegate.missedBlocks
-  const producedBlocks = +delegate.producedBlocks
+	const missedBlocks = +delegate.missedBlocks
+	const producedBlocks = +delegate.producedBlocks
 
-  if (!missedBlocks && !producedBlocks) {
-    return +(0).toFixed(2)
-  }
+	if (!missedBlocks && !producedBlocks) {
+		return +(0).toFixed(2)
+	}
 
-  return +(100 - (missedBlocks / ((producedBlocks + missedBlocks) / 100))).toFixed(2)
+	return +(100 - missedBlocks / ((producedBlocks + missedBlocks) / 100)).toFixed(2)
 }

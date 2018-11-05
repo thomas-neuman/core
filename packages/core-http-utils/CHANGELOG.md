@@ -8,9 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 
 ### Changed
-- Dropped node.js 9 as minimum requirement in favour of node.js 10
+
+-   Dropped node.js 9 as minimum requirement in favour of node.js 10
 
 ## 0.1.0 - 2018-10-25
 
 ### Added
-- initial release
+
+-   initial release

@@ -6,107 +6,109 @@ require('colors')
 let tracker = null
 
 module.exports = class Logger extends LoggerInterface {
-  /**
-   * Make the logger instance.
-   * @return {Winston.Logger}
-   */
-  make () {
-    this.driver = winston.createLogger()
+	/**
+	 * Make the logger instance.
+	 * @return {Winston.Logger}
+	 */
+	make() {
+		this.driver = winston.createLogger()
 
-    this.__registerTransports()
+		this.__registerTransports()
 
-    // this.__registerFilters()
+		// this.__registerFilters()
 
-    this.driver.printTracker = this.printTracker
-    this.driver.stopTracker = this.stopTracker
+		this.driver.printTracker = this.printTracker
+		this.driver.stopTracker = this.stopTracker
 
-    return this.driver
-  }
+		return this.driver
+	}
 
-  /**
-   * Print the progress tracker.
-   * @param  {String} title
-   * @param  {Number} current
-   * @param  {Number} max
-   * @param  {String} postTitle
-   * @param  {Number} figures
-   * @return {void}
-   */
-  printTracker (title, current, max, postTitle, figures = 0) {
-    const progress = 100 * current / max
+	/**
+	 * Print the progress tracker.
+	 * @param  {String} title
+	 * @param  {Number} current
+	 * @param  {Number} max
+	 * @param  {String} postTitle
+	 * @param  {Number} figures
+	 * @return {void}
+	 */
+	printTracker(title, current, max, postTitle, figures = 0) {
+		const progress = (100 * current) / max
 
-    let line = '\u{1b}[0G  '
-    line += title.blue
-    line += ' ['
-    line += ('='.repeat(Math.floor(progress / 2))).green
-    line += ' '.repeat(Math.ceil(50 - progress / 2)) + '] '
-    line += progress.toFixed(figures) + '% '
+		let line = '\u{1b}[0G  '
+		line += title.blue
+		line += ' ['
+		line += '='.repeat(Math.floor(progress / 2)).green
+		line += ' '.repeat(Math.ceil(50 - progress / 2)) + '] '
+		line += progress.toFixed(figures) + '% '
 
-    if (postTitle) {
-      line += postTitle + '                     '
-    }
+		if (postTitle) {
+			line += postTitle + '                     '
+		}
 
-    process.stdout.write(line)
+		process.stdout.write(line)
 
-    tracker = line
-  }
+		tracker = line
+	}
 
-  /**
-   * Stop the progress tracker.
-   * @param  {String} title
-   * @param  {Number} current
-   * @param  {Number} max
-   * @return {void}
-   */
-  stopTracker (title, current, max) {
-    let progress = 100 * current / max
+	/**
+	 * Stop the progress tracker.
+	 * @param  {String} title
+	 * @param  {Number} current
+	 * @param  {Number} max
+	 * @return {void}
+	 */
+	stopTracker(title, current, max) {
+		let progress = (100 * current) / max
 
-    if (progress > 100) {
-      progress = 100
-    }
+		if (progress > 100) {
+			progress = 100
+		}
 
-    let line = '\u{1b}[0G  '
-    line += title.blue
-    line += ' ['
-    line += ('='.repeat(progress / 2)).green
-    line += ' '.repeat(50 - progress / 2) + '] '
-    line += progress.toFixed(0) + '% '
+		let line = '\u{1b}[0G  '
+		line += title.blue
+		line += ' ['
+		line += '='.repeat(progress / 2).green
+		line += ' '.repeat(50 - progress / 2) + '] '
+		line += progress.toFixed(0) + '% '
 
-    if (current === max) {
-      line += '✔️'
-    }
+		if (current === max) {
+			line += '✔️'
+		}
 
-    line += '                                                     \n'
-    process.stdout.write(line)
-    tracker = null
-  }
+		line += '                                                     \n'
+		process.stdout.write(line)
+		tracker = null
+	}
 
-  /**
-   * Register all transports.
-   * @return {void}
-   */
-  __registerTransports () {
-    for (const transport of Object.values(this.options.transports)) {
-      if (transport.package) {
-        require(transport.package)
-      }
+	/**
+	 * Register all transports.
+	 * @return {void}
+	 */
+	__registerTransports() {
+		for (const transport of Object.values(this.options.transports)) {
+			if (transport.package) {
+				require(transport.package)
+			}
 
-      this.driver.add(new winston.transports[transport.constructor](transport.options))
-    }
-  }
+			this.driver.add(new winston.transports[transport.constructor](transport.options))
+		}
+	}
 
-  /**
-   * Register all filters.
-   * @return {void}
-   */
-  __registerFilters () {
-    this.driver.filters.push((level, message, meta) => {
-      if (tracker) {
-        process.stdout.write('\u{1b}[0G                                                                                                     \u{1b}[0G')
-        tracker = null
-      }
+	/**
+	 * Register all filters.
+	 * @return {void}
+	 */
+	__registerFilters() {
+		this.driver.filters.push((level, message, meta) => {
+			if (tracker) {
+				process.stdout.write(
+					'\u{1b}[0G                                                                                                     \u{1b}[0G',
+				)
+				tracker = null
+			}
 
-      return message
-    })
-  }
+			return message
+		})
+	}
 }

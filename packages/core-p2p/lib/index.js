@@ -8,21 +8,21 @@ const startServer = require('./server')
  * @type {Object}
  */
 exports.plugin = {
-  pkg: require('../package.json'),
-  defaults: require('./defaults'),
-  alias: 'p2p',
-  async register (container, options) {
-    container.resolvePlugin('logger').info('Starting P2P Interface')
+	pkg: require('../package.json'),
+	defaults: require('./defaults'),
+	alias: 'p2p',
+	async register(container, options) {
+		container.resolvePlugin('logger').info('Starting P2P Interface')
 
-    monitor.server = await startServer(monitor, options)
+		monitor.server = await startServer(monitor, options)
 
-    await monitor.start(options)
+		await monitor.start(options)
 
-    return monitor
-  },
-  async deregister (container, options) {
-    container.resolvePlugin('logger').info('Stopping P2P Interface')
+		return monitor
+	},
+	async deregister(container, options) {
+		container.resolvePlugin('logger').info('Stopping P2P Interface')
 
-    return container.resolvePlugin('p2p').server.stop()
-  }
+		return container.resolvePlugin('p2p').server.stop()
+	},
 }

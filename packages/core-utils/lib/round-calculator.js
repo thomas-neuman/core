@@ -9,13 +9,13 @@ const container = require('@arkecosystem/core-container')
  * @return {Object}
  */
 exports.calculateRound = (height, maxDelegates = undefined) => {
-  const config = container.resolvePlugin('config')
-  maxDelegates = maxDelegates || config.getConstants(height).activeDelegates
+	const config = container.resolvePlugin('config')
+	maxDelegates = maxDelegates || config.getConstants(height).activeDelegates
 
-  const round = Math.floor((height - 1) / maxDelegates) + 1
-  const nextRound = Math.floor((height) / maxDelegates) + 1
+	const round = Math.floor((height - 1) / maxDelegates) + 1
+	const nextRound = Math.floor(height / maxDelegates) + 1
 
-  return { round, nextRound, maxDelegates }
+	return { round, nextRound, maxDelegates }
 }
 
 /**
@@ -23,9 +23,9 @@ exports.calculateRound = (height, maxDelegates = undefined) => {
  * @param  {Number} height
  * @return {boolean} true if new round, false if not
  */
-exports.isNewRound = (height) => {
-  const config = container.resolvePlugin('config')
-  const maxDelegates = config.getConstants(height).activeDelegates
+exports.isNewRound = height => {
+	const config = container.resolvePlugin('config')
+	const maxDelegates = config.getConstants(height).activeDelegates
 
-  return height % maxDelegates === 1
+	return height % maxDelegates === 1
 }

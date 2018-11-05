@@ -14,26 +14,24 @@ const { Transaction } = require('@arkecosystem/crypto').models
  * @param  {Object} model
  * @return {Object}
  */
-module.exports = (model) => {
-  const data = new Transaction(model.serialized.toString('hex'))
+module.exports = model => {
+	const data = new Transaction(model.serialized.toString('hex'))
 
-  return {
-    id: data.id,
-    blockid: model.blockId,
-    type: data.type,
-    timestamp: data.timestamp,
-    amount: +bignumify(data.amount).toFixed(),
-    fee: +bignumify(data.fee).toFixed(),
-    recipientId: data.recipientId,
-    senderId: crypto.getAddress(data.senderPublicKey, config.network.pubKeyHash),
-    senderPublicKey: data.senderPublicKey,
-    vendorField: data.vendorField,
-    signature: data.signature,
-    signSignature: data.signSignature,
-    signatures: data.signatures,
-    asset: data.asset || {},
-    confirmations: model.block
-      ? blockchain.getLastBlock().data.height - model.block.height
-      : 0
-  }
+	return {
+		id: data.id,
+		blockid: model.blockId,
+		type: data.type,
+		timestamp: data.timestamp,
+		amount: +bignumify(data.amount).toFixed(),
+		fee: +bignumify(data.fee).toFixed(),
+		recipientId: data.recipientId,
+		senderId: crypto.getAddress(data.senderPublicKey, config.network.pubKeyHash),
+		senderPublicKey: data.senderPublicKey,
+		vendorField: data.vendorField,
+		signature: data.signature,
+		signSignature: data.signSignature,
+		signatures: data.signatures,
+		asset: data.asset || {},
+		confirmations: model.block ? blockchain.getLastBlock().data.height - model.block.height : 0,
+	}
 }

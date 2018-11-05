@@ -6,9 +6,9 @@ const os = require('os')
  * @returns {Boolean} true/false
  */
 module.exports = ipAddress => {
-  const interfaces = os.networkInterfaces()
+	const interfaces = os.networkInterfaces()
 
-  return Object.keys(interfaces).some(ifname => {
-    return interfaces[ifname].some(iface => iface.address === ipAddress)
-  })
+	return Object.keys(interfaces).some(ifname => {
+		return interfaces[ifname].some(iface => iface.address === ipAddress)
+	})
 }

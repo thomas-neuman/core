@@ -14,21 +14,21 @@ const utils = require('./handlers/utils')
  * @return {void}
  */
 const register = async (server, options) => {
-  server.route([
-    { method: 'GET', path: '/network/state', ...network.state },
+	server.route([
+		{ method: 'GET', path: '/network/state', ...network.state },
 
-    { method: 'GET', path: '/blockchain/sync', ...blockchain.sync },
+		{ method: 'GET', path: '/blockchain/sync', ...blockchain.sync },
 
-    { method: 'POST', path: '/blocks', ...blocks.store },
+		{ method: 'POST', path: '/blocks', ...blocks.store },
 
-    { method: 'GET', path: '/rounds/current', ...rounds.current },
+		{ method: 'GET', path: '/rounds/current', ...rounds.current },
 
-    { method: 'POST', path: '/transactions/verify', ...transactions.verify },
-    { method: 'GET', path: '/transactions/forging', ...transactions.forging },
+		{ method: 'POST', path: '/transactions/verify', ...transactions.verify },
+		{ method: 'GET', path: '/transactions/forging', ...transactions.forging },
 
-    { method: 'GET', path: '/utils/usernames', ...utils.usernames },
-    { method: 'POST', path: '/utils/events', ...utils.emitEvent }
-  ])
+		{ method: 'GET', path: '/utils/usernames', ...utils.usernames },
+		{ method: 'POST', path: '/utils/events', ...utils.emitEvent },
+	])
 }
 
 /**
@@ -36,7 +36,7 @@ const register = async (server, options) => {
  * @type {Object}
  */
 exports.plugin = {
-  name: 'Ark P2P API - Internal',
-  version: '0.1.0',
-  register
+	name: 'Ark P2P API - Internal',
+	version: '0.1.0',
+	register,
 }

@@ -1,42 +1,42 @@
 module.exports = {
-  // Client...
-  client: require('./client'),
+	// Client...
+	client: require('./client'),
 
-  // Models...
-  models: {
-    Block: require('./models/block'),
-    Delegate: require('./models/delegate'),
-    Transaction: require('./models/transaction'),
-    Wallet: require('./models/wallet')
-  },
+	// Models...
+	models: {
+		Block: require('./models/block'),
+		Delegate: require('./models/delegate'),
+		Transaction: require('./models/transaction'),
+		Wallet: require('./models/wallet'),
+	},
 
-  // Identities...
-  identities: {
-    address: require('./identities/address'),
-    keys: require('./identities/keys'),
-    privateKey: require('./identities/private-key'),
-    publicKey: require('./identities/public-key'),
-    wif: require('./identities/wif')
-  },
+	// Identities...
+	identities: {
+		address: require('./identities/address'),
+		keys: require('./identities/keys'),
+		privateKey: require('./identities/private-key'),
+		publicKey: require('./identities/public-key'),
+		wif: require('./identities/wif'),
+	},
 
-  // Builder...
-  transactionBuilder: require('./builder'),
+	// Builder...
+	transactionBuilder: require('./builder'),
 
-  // Crypto...
-  ...require('./crypto'),
+	// Crypto...
+	...require('./crypto'),
 
-  // Managers...
-  configManager: require('./managers/config'),
-  feeManager: require('./managers/fee'),
-  NetworkManager: require('./managers/network'),
-  dynamicFeeManager: require('./managers/dynamic-fee'),
+	// Managers...
+	configManager: require('./managers/config'),
+	feeManager: require('./managers/fee'),
+	NetworkManager: require('./managers/network'),
+	dynamicFeeManager: require('./managers/dynamic-fee'),
 
-  // Constants...
-  constants: require('./constants'),
+	// Constants...
+	constants: require('./constants'),
 
-  // Utils...
-  ...require('./utils'),
+	// Utils...
+	...require('./utils'),
 
-  // Validations
-  ...require('./validation')
+	// Validations
+	...require('./validation'),
 }

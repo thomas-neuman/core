@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const inputs = require('./inputs')
 const types = require('./types')

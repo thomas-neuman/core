@@ -5,4 +5,4 @@
  * @param  {*} actual
  * @return {Boolean}
  */
-module.exports = actual => (actual === false)
+module.exports = actual => actual === false

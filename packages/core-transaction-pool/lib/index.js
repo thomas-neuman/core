@@ -7,11 +7,11 @@ const transactionPoolManager = require('./manager')
  * @type {Object}
  */
 exports.plugin = {
-  pkg: require('../package.json'),
-  alias: 'transactionPoolManager',
-  async register (container, options) {
-    return transactionPoolManager
-  }
+	pkg: require('../package.json'),
+	alias: 'transactionPoolManager',
+	async register(container, options) {
+		return transactionPoolManager
+	},
 }
 
 /**

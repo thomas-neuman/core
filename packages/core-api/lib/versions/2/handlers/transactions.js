@@ -19,207 +19,207 @@ const { transactions: repository } = require('../../../repositories')
  * @type {Object}
  */
 exports.index = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  async handler (request, h) {
-    const transactions = await repository.findAll({ ...request.query, ...utils.paginate(request) })
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	async handler(request, h) {
+		const transactions = await repository.findAll({ ...request.query, ...utils.paginate(request) })
 
-    return utils.toPagination(request, transactions, 'transaction')
-  },
-  options: {
-    validate: schema.index
-  }
+		return utils.toPagination(request, transactions, 'transaction')
+	},
+	options: {
+		validate: schema.index,
+	},
 }
 
 /**
  * @type {Object}
  */
 exports.store = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  async handler (request, h) {
-    if (!transactionPool.options.enabled) {
-      return Boom.serverUnavailable('Transaction pool is disabled.')
-    }
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	async handler(request, h) {
+		if (!transactionPool.options.enabled) {
+			return Boom.serverUnavailable('Transaction pool is disabled.')
+		}
 
-    /**
-     * Here we will make sure we memorize the transactions for future requests
-     * and decide which transactions are valid or invalid in order to prevent
-     * duplication and race conditions caused by concurrent requests.
-     */
-    const { valid, invalid } = transactionPool.memory.memorize(request.payload.transactions)
+		/**
+		 * Here we will make sure we memorize the transactions for future requests
+		 * and decide which transactions are valid or invalid in order to prevent
+		 * duplication and race conditions caused by concurrent requests.
+		 */
+		const { valid, invalid } = transactionPool.memory.memorize(request.payload.transactions)
 
-    const guard = new TransactionGuard(transactionPool)
-    guard.invalidate(invalid, 'Already memorized.')
+		const guard = new TransactionGuard(transactionPool)
+		guard.invalidate(invalid, 'Already memorized.')
 
-    await guard.validate(valid)
+		await guard.validate(valid)
 
-    if (guard.hasAny('accept')) {
-      logger.info(`Received ${guard.accept.length} new transactions`)
+		if (guard.hasAny('accept')) {
+			logger.info(`Received ${guard.accept.length} new transactions`)
 
-      transactionPool.addTransactions(guard.accept)
+			transactionPool.addTransactions(guard.accept)
 
-      transactionPool.memory
-        .forget(guard.getIds('accept'))
-        .forget(guard.getIds('excess'))
-    }
+			transactionPool.memory.forget(guard.getIds('accept')).forget(guard.getIds('excess'))
+		}
 
-    if (!request.payload.isBroadCasted && guard.hasAny('broadcast')) {
-      await container
-        .resolvePlugin('p2p')
-        .broadcastTransactions(guard.broadcast)
-    }
+		if (!request.payload.isBroadCasted && guard.hasAny('broadcast')) {
+			await container.resolvePlugin('p2p').broadcastTransactions(guard.broadcast)
+		}
 
-    return guard.toJson()
-  },
-  options: {
-    validate: schema.store,
-    plugins: {
-      pagination: {
-        enabled: false
-      }
-    }
-  }
+		return guard.toJson()
+	},
+	options: {
+		validate: schema.store,
+		plugins: {
+			pagination: {
+				enabled: false,
+			},
+		},
+	},
 }
 
 /**
  * @type {Object}
  */
 exports.show = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  async handler (request, h) {
-    const transaction = await repository.findById(request.params.id)
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	async handler(request, h) {
+		const transaction = await repository.findById(request.params.id)
 
-    if (!transaction) {
-      return Boom.notFound('Transaction not found')
-    }
+		if (!transaction) {
+			return Boom.notFound('Transaction not found')
+		}
 
-    return utils.respondWithResource(request, transaction, 'transaction')
-  },
-  options: {
-    validate: schema.show
-  }
+		return utils.respondWithResource(request, transaction, 'transaction')
+	},
+	options: {
+		validate: schema.show,
+	},
 }
 
 /**
  * @type {Object}
  */
 exports.unconfirmed = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  async handler (request, h) {
-    if (!transactionPool.options.enabled) {
-      return Boom.serverUnavailable('Transaction pool is disabled.')
-    }
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	async handler(request, h) {
+		if (!transactionPool.options.enabled) {
+			return Boom.serverUnavailable('Transaction pool is disabled.')
+		}
 
-    const pagination = utils.paginate(request)
+		const pagination = utils.paginate(request)
 
-    let transactions = transactionPool.getTransactions(pagination.offset, pagination.limit)
-    transactions = transactions.map(transaction => ({ serialized: transaction }))
+		let transactions = transactionPool.getTransactions(pagination.offset, pagination.limit)
+		transactions = transactions.map(transaction => ({ serialized: transaction }))
 
-    return utils.toPagination(request, {
-      count: transactionPool.getPoolSize(),
-      rows: transactions
-    }, 'transaction')
-  },
-  options: {
-    validate: schema.unconfirmed
-  }
+		return utils.toPagination(
+			request,
+			{
+				count: transactionPool.getPoolSize(),
+				rows: transactions,
+			},
+			'transaction',
+		)
+	},
+	options: {
+		validate: schema.unconfirmed,
+	},
 }
 
 /**
  * @type {Object}
  */
 exports.showUnconfirmed = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  handler (request, h) {
-    if (!transactionPool.options.enabled) {
-      return Boom.serverUnavailable('Transaction pool is disabled.')
-    }
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	handler(request, h) {
+		if (!transactionPool.options.enabled) {
+			return Boom.serverUnavailable('Transaction pool is disabled.')
+		}
 
-    let transaction = transactionPool.getTransaction(request.params.id)
+		let transaction = transactionPool.getTransaction(request.params.id)
 
-    if (!transaction) {
-      return Boom.notFound('Transaction not found')
-    }
+		if (!transaction) {
+			return Boom.notFound('Transaction not found')
+		}
 
-    transaction = { serialized: transaction.serialized }
+		transaction = { serialized: transaction.serialized }
 
-    return utils.respondWithResource(request, transaction, 'transaction')
-  },
-  options: {
-    validate: schema.showUnconfirmed
-  }
+		return utils.respondWithResource(request, transaction, 'transaction')
+	},
+	options: {
+		validate: schema.showUnconfirmed,
+	},
 }
 
 /**
  * @type {Object}
  */
 exports.search = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  async handler (request, h) {
-    const transactions = await repository.search({
-      ...request.query,
-      ...request.payload,
-      ...utils.paginate(request)
-    })
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	async handler(request, h) {
+		const transactions = await repository.search({
+			...request.query,
+			...request.payload,
+			...utils.paginate(request),
+		})
 
-    return utils.toPagination(request, transactions, 'transaction')
-  },
-  options: {
-    validate: schema.search
-  }
+		return utils.toPagination(request, transactions, 'transaction')
+	},
+	options: {
+		validate: schema.search,
+	},
 }
 
 /**
  * @type {Object}
  */
 exports.types = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  async handler (request, h) {
-    return {
-      data: TRANSACTION_TYPES
-    }
-  }
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	async handler(request, h) {
+		return {
+			data: TRANSACTION_TYPES,
+		}
+	},
 }
 
 /**
  * @type {Object}
  */
 exports.fees = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  async handler (request, h) {
-    return {
-      data: config.getConstants(blockchain.getLastBlock().data.height).fees
-    }
-  }
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	async handler(request, h) {
+		return {
+			data: config.getConstants(blockchain.getLastBlock().data.height).fees,
+		}
+	},
 }

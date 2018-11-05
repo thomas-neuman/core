@@ -7,12 +7,12 @@ const SnapshotManager = require('./manager')
  * @type {Object}
  */
 exports.plugin = {
-  pkg: require('../package.json'),
-  defaults: require('./defaults'),
-  alias: 'snapshots',
-  async register (container, options) {
-    const manager = new SnapshotManager(options)
+	pkg: require('../package.json'),
+	defaults: require('./defaults'),
+	alias: 'snapshots',
+	async register(container, options) {
+		const manager = new SnapshotManager(options)
 
-    return manager.make(container.resolvePlugin('database'))
-  }
+		return manager.make(container.resolvePlugin('database'))
+	},
 }

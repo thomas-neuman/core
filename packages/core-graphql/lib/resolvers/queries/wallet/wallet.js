@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const database = require('@arkecosystem/core-container').resolvePlugin('database')
 
@@ -7,6 +7,6 @@ const database = require('@arkecosystem/core-container').resolvePlugin('database
  * @return {Wallet}
  */
 module.exports = async (_, args) => {
-  const param = args.address || args.publicKey || args.username
-  return database.wallets.findById(param)
+	const param = args.address || args.publicKey || args.username
+	return database.wallets.findById(param)
 }

@@ -5,29 +5,33 @@ const database = require('../../../services/database')
 const getBIP38Wallet = require('../../../utils/bip38-keys')
 
 module.exports = {
-  name: 'transactions.bip38.create',
-  async method (params) {
-    const wallet = await getBIP38Wallet(params.userId, params.bip38)
+	name: 'transactions.bip38.create',
+	async method(params) {
+		const wallet = await getBIP38Wallet(params.userId, params.bip38)
 
-    if (!wallet) {
-      return Boom.notFound(`User ${params.userId} could not be found.`)
-    }
+		if (!wallet) {
+			return Boom.notFound(`User ${params.userId} could not be found.`)
+		}
 
-    const transaction = transactionBuilder
-      .transfer()
-      .recipientId(params.recipientId)
-      .amount(params.amount)
-      .signWithWif(wallet.wif)
-      .getStruct()
+		const transaction = transactionBuilder
+			.transfer()
+			.recipientId(params.recipientId)
+			.amount(params.amount)
+			.signWithWif(wallet.wif)
+			.getStruct()
 
-    await database.set(transaction.id, transaction)
+		await database.set(transaction.id, transaction)
 
-    return transaction
-  },
-  schema: {
-    amount: Joi.number().required(),
-    recipientId: Joi.string().length(34).required(),
-    bip38: Joi.string().required(),
-    userId: Joi.string().hex().required()
-  }
+		return transaction
+	},
+	schema: {
+		amount: Joi.number().required(),
+		recipientId: Joi.string()
+			.length(34)
+			.required(),
+		bip38: Joi.string().required(),
+		userId: Joi.string()
+			.hex()
+			.required(),
+	},
 }

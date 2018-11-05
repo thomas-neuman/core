@@ -1,6 +1,6 @@
 'use strict'
 
 module.exports = {
-  codec: 'lite',
-  chunkSize: 50000
+	codec: 'lite',
+	chunkSize: 50000,
 }

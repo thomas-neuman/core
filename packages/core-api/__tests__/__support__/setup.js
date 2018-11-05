@@ -8,17 +8,17 @@ const activeDelegates = require('@arkecosystem/core-test-utils/fixtures/testnet/
 const round = generateRound(activeDelegates.map(delegate => delegate.publicKey), 1)
 
 exports.setUp = async () => {
-  jest.setTimeout(60000)
+	jest.setTimeout(60000)
 
-  await containerHelper.setUp({})
+	await containerHelper.setUp({})
 
-  const connection = container.resolvePlugin('database')
-  await connection.db.rounds.truncate()
-  await connection.buildWallets(1)
-  await connection.saveWallets(true)
-  await connection.saveRound(round)
+	const connection = container.resolvePlugin('database')
+	await connection.db.rounds.truncate()
+	await connection.buildWallets(1)
+	await connection.saveWallets(true)
+	await connection.saveRound(round)
 }
 
 exports.tearDown = async () => {
-  await container.tearDown()
+	await container.tearDown()
 }

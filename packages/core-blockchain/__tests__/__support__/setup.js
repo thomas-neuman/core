@@ -6,14 +6,14 @@ const containerHelper = require('@arkecosystem/core-test-utils/lib/helpers/conta
 jest.setTimeout(60000)
 
 exports.setUp = async () => {
-  await containerHelper.setUp({
-    exit: '@arkecosystem/core-p2p',
-    exclude: ['@arkecosystem/core-blockchain']
-  })
+	await containerHelper.setUp({
+		exit: '@arkecosystem/core-p2p',
+		exclude: ['@arkecosystem/core-blockchain'],
+	})
 
-  return container
+	return container
 }
 
 exports.tearDown = async () => {
-  await container.tearDown()
+	await container.tearDown()
 }

@@ -6,4 +6,4 @@
  * @param  {String} expected
  * @return {Boolean}
  */
-module.exports = (actual, expected) => (new RegExp(expected).test(actual))
+module.exports = (actual, expected) => new RegExp(expected).test(actual)

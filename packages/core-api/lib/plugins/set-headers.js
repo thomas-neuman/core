@@ -7,20 +7,20 @@
  * @return {void}
  */
 const register = async (server, options) => {
-  server.ext({
-    type: 'onPreResponse',
-    async method (request, h) {
-      const response = request.response
-      if (response.isBoom && response.data) {
-        // Deleting the property beforehand makes it appear last in the
-        // response body.
-        delete response.output.payload.error
-        response.output.payload.error = response.data
-      }
+	server.ext({
+		type: 'onPreResponse',
+		async method(request, h) {
+			const response = request.response
+			if (response.isBoom && response.data) {
+				// Deleting the property beforehand makes it appear last in the
+				// response body.
+				delete response.output.payload.error
+				response.output.payload.error = response.data
+			}
 
-      return h.continue
-    }
-  })
+			return h.continue
+		},
+	})
 }
 
 /**
@@ -28,7 +28,7 @@ const register = async (server, options) => {
  * @type {Object}
  */
 exports.plugin = {
-  name: 'set-headers',
-  version: '0.1.0',
-  register
+	name: 'set-headers',
+	version: '0.1.0',
+	register,
 }

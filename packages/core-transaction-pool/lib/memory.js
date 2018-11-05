@@ -9,46 +9,46 @@ const without = require('lodash/without')
  * of transactions during that process and after all in the transaction pool.
  */
 class Memory {
-  /**
-   * Create a new Memory instance.
-   */
-  constructor () {
-    this.memory = []
-  }
+	/**
+	 * Create a new Memory instance.
+	 */
+	constructor() {
+		this.memory = []
+	}
 
-  /**
-   * Memorize the given transactions.
-   * @param  {Array} transactions
-   * @return {Object}
-   */
-  memorize (transactions) {
-    const valid = transactions.filter(t => !this.__includes(t.id))
-    const invalid = transactions.filter(t => this.__includes(t.id))
+	/**
+	 * Memorize the given transactions.
+	 * @param  {Array} transactions
+	 * @return {Object}
+	 */
+	memorize(transactions) {
+		const valid = transactions.filter(t => !this.__includes(t.id))
+		const invalid = transactions.filter(t => this.__includes(t.id))
 
-    this.memory = this.memory.concat(transactions.map(t => t.id))
+		this.memory = this.memory.concat(transactions.map(t => t.id))
 
-    return { valid, invalid }
-  }
+		return { valid, invalid }
+	}
 
-  /**
-   * Forget the given transactions.
-   * @param  {Array} transactions
-   * @return {Memory}
-   */
-  forget (transactions) {
-    this.memory = without(this.memory, transactions)
+	/**
+	 * Forget the given transactions.
+	 * @param  {Array} transactions
+	 * @return {Memory}
+	 */
+	forget(transactions) {
+		this.memory = without(this.memory, transactions)
 
-    return this
-  }
+		return this
+	}
 
-  /**
-   * Determine if the given transaction is memorized.
-   * @param  {Object} transaction
-   * @return {Boolean}
-   */
-  __includes (transaction) {
-    return this.memory.includes(transaction)
-  }
+	/**
+	 * Determine if the given transaction is memorized.
+	 * @param  {Object} transaction
+	 * @return {Boolean}
+	 */
+	__includes(transaction) {
+		return this.memory.includes(transaction)
+	}
 }
 
 module.exports = new Memory()

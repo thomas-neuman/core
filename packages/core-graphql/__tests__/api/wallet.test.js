@@ -5,27 +5,27 @@ require('@arkecosystem/core-test-utils/lib/matchers')
 let genesisBlock
 
 beforeAll(async () => {
-  await app.setUp()
+	await app.setUp()
 
-  genesisBlock = require('@arkecosystem/core-test-utils/config/testnet/genesisBlock.json')
+	genesisBlock = require('@arkecosystem/core-test-utils/config/testnet/genesisBlock.json')
 })
 
 afterAll(() => {
-  app.tearDown()
+	app.tearDown()
 })
 
 describe('GraphQL API { wallet }', () => {
-  describe('GraphQL queries for Wallet', () => {
-    it('should get a wallet by address', async () => {
-      const query = `{ wallet(address:"${genesisBlock.transactions[0].senderId}") { address } }`
-      const response = await utils.request(query)
+	describe('GraphQL queries for Wallet', () => {
+		it('should get a wallet by address', async () => {
+			const query = `{ wallet(address:"${genesisBlock.transactions[0].senderId}") { address } }`
+			const response = await utils.request(query)
 
-      expect(response).toBeSuccessfulResponse()
+			expect(response).toBeSuccessfulResponse()
 
-      const data = response.data.data
-      expect(data).toBeObject()
-      expect(data.wallet).toBeObject()
-      expect(data.wallet.address).toBe(genesisBlock.transactions[0].senderId)
-    })
-  })
+			const data = response.data.data
+			expect(data).toBeObject()
+			expect(data.wallet).toBeObject()
+			expect(data.wallet.address).toBe(genesisBlock.transactions[0].senderId)
+		})
+	})
 })

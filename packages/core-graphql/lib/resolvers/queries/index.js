@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const block = require('./block/block')
 const blocks = require('./block/blocks')
@@ -11,10 +11,10 @@ const wallets = require('./wallet/wallets')
  * Queries exposed by our GraphQL schema
  */
 module.exports = {
-  block,
-  blocks,
-  transaction,
-  transactions,
-  wallet,
-  wallets
+	block,
+	blocks,
+	transaction,
+	transactions,
+	wallet,
+	wallets,
 }

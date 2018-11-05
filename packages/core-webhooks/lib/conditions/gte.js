@@ -6,4 +6,4 @@
  * @param  {Number} expected
  * @return {Boolean}
  */
-module.exports = (actual, expected) => (actual >= expected)
+module.exports = (actual, expected) => actual >= expected

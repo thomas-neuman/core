@@ -1,5 +1,1 @@
-module.exports = [
-  require('./latest'),
-  require('./info'),
-  require('./transactions')
-]
+module.exports = [require('./latest'), require('./info'), require('./transactions')]

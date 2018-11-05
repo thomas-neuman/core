@@ -9,17 +9,17 @@ const handlers = require('./handlers')
  * @return {void}
  */
 const register = async (server, options) => {
-  server.route([
-    { method: 'GET', path: '/list', ...handlers.getPeers },
-    { method: 'GET', path: '/blocks', ...handlers.getBlocks },
-    { method: 'GET', path: '/transactionsFromIds', ...handlers.getTransactionsFromIds },
-    { method: 'GET', path: '/height', ...handlers.getHeight },
-    { method: 'GET', path: '/transactions', ...handlers.getTransactions },
-    { method: 'GET', path: '/blocks/common', ...handlers.getCommonBlocks },
-    { method: 'GET', path: '/status', ...handlers.getStatus },
-    { method: 'POST', path: '/blocks', ...handlers.postBlock },
-    { method: 'POST', path: '/transactions', ...handlers.postTransactions }
-  ])
+	server.route([
+		{ method: 'GET', path: '/list', ...handlers.getPeers },
+		{ method: 'GET', path: '/blocks', ...handlers.getBlocks },
+		{ method: 'GET', path: '/transactionsFromIds', ...handlers.getTransactionsFromIds },
+		{ method: 'GET', path: '/height', ...handlers.getHeight },
+		{ method: 'GET', path: '/transactions', ...handlers.getTransactions },
+		{ method: 'GET', path: '/blocks/common', ...handlers.getCommonBlocks },
+		{ method: 'GET', path: '/status', ...handlers.getStatus },
+		{ method: 'POST', path: '/blocks', ...handlers.postBlock },
+		{ method: 'POST', path: '/transactions', ...handlers.postTransactions },
+	])
 }
 
 /**
@@ -27,7 +27,7 @@ const register = async (server, options) => {
  * @type {Object}
  */
 exports.plugin = {
-  name: 'Ark P2P API - v1',
-  version: '0.1.0',
-  register
+	name: 'Ark P2P API - v1',
+	version: '0.1.0',
+	register,
 }

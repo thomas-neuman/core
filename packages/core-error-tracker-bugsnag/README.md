@@ -16,12 +16,12 @@ yarn add @arkecosystem/core-error-tracker-bugsnag
 
 ```js
 module.exports = {
-  apiKey: process.env.ARK_ERROR_TRACKER_BUGSNAG_API_KEY,
-  configuration: {
-    metaData: {
-      network: process.env.ARK_NETWORK_NAME
-    }
-  }
+	apiKey: process.env.ARK_ERROR_TRACKER_BUGSNAG_API_KEY,
+	configuration: {
+		metaData: {
+			network: process.env.ARK_NETWORK_NAME,
+		},
+	},
 }
 ```
 
@@ -31,8 +31,8 @@ If you discover a security vulnerability within this package, please send an e-m
 
 ## Credits
 
-- [Brian Faust](https://github.com/faustbrian)
-- [All Contributors](../../../../contributors)
+-   [Brian Faust](https://github.com/faustbrian)
+-   [All Contributors](../../../../contributors)
 
 ## License
 

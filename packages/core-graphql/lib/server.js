@@ -8,18 +8,18 @@ const server = require('./schema')
  * @param  {Object} config
  * @return {Hapi.Server}
  */
-module.exports = async (config) => {
-  const app = await createServer({
-    host: config.host,
-    port: config.port
-  })
+module.exports = async config => {
+	const app = await createServer({
+		host: config.host,
+		port: config.port,
+	})
 
-  await server.applyMiddleware({
-    app,
-    path: config.path
-  })
+	await server.applyMiddleware({
+		app,
+		path: config.path,
+	})
 
-  await server.installSubscriptionHandlers(app.listener)
+	await server.installSubscriptionHandlers(app.listener)
 
-  return mountServer('GraphQL', app)
+	return mountServer('GraphQL', app)
 }

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * Actual types which are relevant to queries issued to our GraphQL endpoint.

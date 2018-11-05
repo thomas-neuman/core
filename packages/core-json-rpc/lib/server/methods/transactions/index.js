@@ -1,6 +1,1 @@
-module.exports = [
-  require('./bip38/create'),
-  require('./broadcast'),
-  require('./create'),
-  require('./info')
-]
+module.exports = [require('./bip38/create'), require('./broadcast'), require('./create'), require('./info')]

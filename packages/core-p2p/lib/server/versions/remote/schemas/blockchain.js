@@ -6,7 +6,7 @@ const Joi = require('joi')
  * @type {Object}
  */
 exports.emitEvent = {
-  params: {
-    event: Joi.string()
-  }
+	params: {
+		event: Joi.string(),
+	},
 }

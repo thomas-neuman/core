@@ -6,16 +6,16 @@ const transactionBuilderTests = require('./__shared__/transaction')
 let builder
 
 beforeEach(() => {
-  builder = ark.getBuilder().delegateResignation()
+	builder = ark.getBuilder().delegateResignation()
 
-  global.builder = builder
+	global.builder = builder
 })
 
 describe('Delegate Resignation Transaction', () => {
-  transactionBuilderTests()
+	transactionBuilderTests()
 
-  it('should have its specific properties', () => {
-    expect(builder).toHaveProperty('data.type', TRANSACTION_TYPES.DELEGATE_RESIGNATION)
-    expect(builder).toHaveProperty('data.fee', feeManager.get(TRANSACTION_TYPES.DELEGATE_RESIGNATION))
-  })
+	it('should have its specific properties', () => {
+		expect(builder).toHaveProperty('data.type', TRANSACTION_TYPES.DELEGATE_RESIGNATION)
+		expect(builder).toHaveProperty('data.fee', feeManager.get(TRANSACTION_TYPES.DELEGATE_RESIGNATION))
+	})
 })

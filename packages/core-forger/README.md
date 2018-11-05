@@ -14,7 +14,7 @@ yarn add @arkecosystem/core-forger
 
 ```js
 module.exports = {
-  hosts: [`http://127.0.0.1:${process.env.ARK_P2P_PORT || 4002}`]
+	hosts: [`http://127.0.0.1:${process.env.ARK_P2P_PORT || 4002}`],
 }
 ```
 
@@ -24,10 +24,10 @@ If you discover a security vulnerability within this package, please send an e-m
 
 ## Credits
 
-- [François-Xavier Thoorens](https://github.com/fix)
-- [Kristjan Košič](https://github.com/kristjank)
-- [Brian Faust](https://github.com/faustbrian)
-- [All Contributors](../../../../contributors)
+-   [François-Xavier Thoorens](https://github.com/fix)
+-   [Kristjan Košič](https://github.com/kristjank)
+-   [Brian Faust](https://github.com/faustbrian)
+-   [All Contributors](../../../../contributors)
 
 ## License
 

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const { formatOrderBy } = require('../../../helpers')
 const { blocks: repository } = require('../../../repositories')
@@ -8,11 +8,11 @@ const { blocks: repository } = require('../../../repositories')
  * @return {Block[]}
  */
 module.exports = async (_, args) => {
-  const { orderBy, filter } = args
+	const { orderBy, filter } = args
 
-  const order = formatOrderBy(orderBy, 'height:desc')
+	const order = formatOrderBy(orderBy, 'height:desc')
 
-  const result = await repository.findAll({ ...filter, orderBy: order })
+	const result = await repository.findAll({ ...filter, orderBy: order })
 
-  return result ? result.rows : []
+	return result ? result.rows : []
 }

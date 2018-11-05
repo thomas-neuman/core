@@ -8,9 +8,7 @@ const handlers = require('./handlers')
  * @return {void}
  */
 const register = async (server, options) => {
-  server.route([
-    { method: 'GET', path: '/', ...handlers.config }
-  ])
+	server.route([{ method: 'GET', path: '/', ...handlers.config }])
 }
 
 /**
@@ -18,7 +16,7 @@ const register = async (server, options) => {
  * @type {Object}
  */
 exports.plugin = {
-  name: 'Ark P2P - Config API',
-  version: '0.1.0',
-  register
+	name: 'Ark P2P - Config API',
+	version: '0.1.0',
+	register,
 }

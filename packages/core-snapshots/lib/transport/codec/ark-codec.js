@@ -3,21 +3,21 @@ const msgpack = require('msgpack-lite')
 const arkEncoders = require('./ark')
 
 class ArkCodec {
-  get blocks () {
-    const codec = msgpack.createCodec()
-    codec.addExtPacker(0x3F, Object, arkEncoders.blockEncode)
-    codec.addExtUnpacker(0x3F, arkEncoders.blockDecode)
+	get blocks() {
+		const codec = msgpack.createCodec()
+		codec.addExtPacker(0x3f, Object, arkEncoders.blockEncode)
+		codec.addExtUnpacker(0x3f, arkEncoders.blockDecode)
 
-    return codec
-  }
+		return codec
+	}
 
-  get transactions () {
-    const codec = msgpack.createCodec()
-    codec.addExtPacker(0x4F, Object, arkEncoders.transactionEncode)
-    codec.addExtUnpacker(0x4F, arkEncoders.transactionDecode)
+	get transactions() {
+		const codec = msgpack.createCodec()
+		codec.addExtPacker(0x4f, Object, arkEncoders.transactionEncode)
+		codec.addExtUnpacker(0x4f, arkEncoders.transactionDecode)
 
-    return codec
-  }
+		return codec
+	}
 }
 
 module.exports = new ArkCodec()

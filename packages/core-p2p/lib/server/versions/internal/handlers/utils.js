@@ -9,43 +9,43 @@ const schema = require('../schemas/utils')
  * @type {Object}
  */
 exports.usernames = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  async handler (request, h) {
-    const blockchain = container.resolvePlugin('blockchain')
-    const walletManager = container.resolvePlugin('database').walletManager
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	async handler(request, h) {
+		const blockchain = container.resolvePlugin('blockchain')
+		const walletManager = container.resolvePlugin('database').walletManager
 
-    const lastBlock = blockchain.getLastBlock()
-    const delegates = await blockchain.database.getActiveDelegates(lastBlock ? lastBlock.data.height + 1 : 1)
+		const lastBlock = blockchain.getLastBlock()
+		const delegates = await blockchain.database.getActiveDelegates(lastBlock ? lastBlock.data.height + 1 : 1)
 
-    const data = {}
-    for (const delegate of delegates) {
-      data[delegate.publicKey] = walletManager.findByPublicKey(delegate.publicKey).username
-    }
+		const data = {}
+		for (const delegate of delegates) {
+			data[delegate.publicKey] = walletManager.findByPublicKey(delegate.publicKey).username
+		}
 
-    return { data }
-  }
+		return { data }
+	},
 }
 
 /**
-* Emit the given event and payload to the local host.
+ * Emit the given event and payload to the local host.
  * @type {Object}
  */
 exports.emitEvent = {
-  /**
-   * @param  {Hapi.Request} request
-   * @param  {Hapi.Toolkit} h
-   * @return {Hapi.Response}
-   */
-  handler: (request, h) => {
-    emitter.emit(request.payload.event, request.payload.body)
+	/**
+	 * @param  {Hapi.Request} request
+	 * @param  {Hapi.Toolkit} h
+	 * @return {Hapi.Response}
+	 */
+	handler: (request, h) => {
+		emitter.emit(request.payload.event, request.payload.body)
 
-    return h.response(null).code(204)
-  },
-  options: {
-    validate: schema.emitEvent
-  }
+		return h.response(null).code(204)
+	},
+	options: {
+		validate: schema.emitEvent,
+	},
 }

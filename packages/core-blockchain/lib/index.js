@@ -8,25 +8,23 @@ const Blockchain = require('./blockchain')
  * @type {Object}
  */
 exports.plugin = {
-  pkg: require('../package.json'),
-  defaults: require('./defaults'),
-  alias: 'blockchain',
-  async register (container, options) {
-    const blockchain = new Blockchain(options.networkStart)
+	pkg: require('../package.json'),
+	defaults: require('./defaults'),
+	alias: 'blockchain',
+	async register(container, options) {
+		const blockchain = new Blockchain(options.networkStart)
 
-    container.register('state', asValue(
-      require('./state-storage')
-    ))
+		container.register('state', asValue(require('./state-storage')))
 
-    if (!process.env.ARK_SKIP_BLOCKCHAIN) {
-      await blockchain.start()
-    }
+		if (!process.env.ARK_SKIP_BLOCKCHAIN) {
+			await blockchain.start()
+		}
 
-    return blockchain
-  },
-  async deregister (container, options) {
-    await container.resolvePlugin('blockchain').stop()
-  }
+		return blockchain
+	},
+	async deregister(container, options) {
+		await container.resolvePlugin('blockchain').stop()
+	},
 }
 
 /**

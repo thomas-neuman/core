@@ -10,7 +10,7 @@ const path = require('path')
  * @return {Object}
  */
 const transformResource = (request, data, transformer) => {
-  return require(path.resolve(__dirname, `../versions/${request.pre.apiVersion}/transformers/${transformer}`))(data)
+	return require(path.resolve(__dirname, `../versions/${request.pre.apiVersion}/transformers/${transformer}`))(data)
 }
 
 /**
@@ -21,13 +21,13 @@ const transformResource = (request, data, transformer) => {
  * @return {Object}
  */
 const transformCollection = (request, data, transformer) => {
-  return data.map(d => transformResource(request, d, transformer))
+	return data.map(d => transformResource(request, d, transformer))
 }
 
 /**
  * @type {Object}
  */
 module.exports = {
-  transformResource,
-  transformCollection
+	transformResource,
+	transformCollection,
 }

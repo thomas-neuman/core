@@ -1,55 +1,55 @@
 const sql = require('sql')
 
 module.exports = class Model {
-  /**
-   * Create a new model instance.
-   * @param {Object} pgp
-   */
-  constructor (pgp) {
-    this.pgp = pgp
-  }
+	/**
+	 * Create a new model instance.
+	 * @param {Object} pgp
+	 */
+	constructor(pgp) {
+		this.pgp = pgp
+	}
 
-  /**
-   * Return the model & table definition.
-   * @return {Object}
-   */
-  query () {
-    return sql.define({
-      name: this.getTable(),
-      columns: this.getColumnSet().columns.map(column => ({
-        name: column.name,
-        prop: column.prop || column.name
-      }))
-    })
-  }
+	/**
+	 * Return the model & table definition.
+	 * @return {Object}
+	 */
+	query() {
+		return sql.define({
+			name: this.getTable(),
+			columns: this.getColumnSet().columns.map(column => ({
+				name: column.name,
+				prop: column.prop || column.name,
+			})),
+		})
+	}
 
-  /**
-   * Convert the "camelCase" keys to "snake_case".
-   * @return {Object}
-   */
-  transform (model) {
-    const mappings = Object.entries(this.getMappings())
+	/**
+	 * Convert the "camelCase" keys to "snake_case".
+	 * @return {Object}
+	 */
+	transform(model) {
+		const mappings = Object.entries(this.getMappings())
 
-    let transformed = {}
+		let transformed = {}
 
-    for (const [original, mapping] of mappings) {
-      transformed[mapping] = model[original]
-    }
+		for (const [original, mapping] of mappings) {
+			transformed[mapping] = model[original]
+		}
 
-    return transformed
-  }
+		return transformed
+	}
 
-  /**
-   * Convert the "camelCase" keys to "snake_case".
-   * @param  {Array} v
-   * @return {ColumnSet}
-   */
-  createColumnSet (columns) {
-    return new this.pgp.helpers.ColumnSet(columns, {
-      table: {
-        table: this.getTable(),
-        schema: 'public'
-      }
-    })
-  }
+	/**
+	 * Convert the "camelCase" keys to "snake_case".
+	 * @param  {Array} v
+	 * @return {ColumnSet}
+	 */
+	createColumnSet(columns) {
+		return new this.pgp.helpers.ColumnSet(columns, {
+			table: {
+				table: this.getTable(),
+				schema: 'public',
+			},
+		})
+	}
 }

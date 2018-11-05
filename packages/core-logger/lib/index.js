@@ -7,11 +7,11 @@ const logManager = require('./manager')
  * @type {Object}
  */
 exports.plugin = {
-  pkg: require('../package.json'),
-  alias: 'logManager',
-  async register (container, options) {
-    return logManager
-  }
+	pkg: require('../package.json'),
+	alias: 'logManager',
+	async register(container, options) {
+		return logManager
+	},
 }
 
 /**

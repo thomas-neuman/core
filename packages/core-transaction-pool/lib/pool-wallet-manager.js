@@ -9,116 +9,123 @@ const { crypto } = require('@arkecosystem/crypto')
 const { TRANSACTION_TYPES } = require('@arkecosystem/crypto').constants
 
 module.exports = class PoolWalletManager extends WalletManager {
-  /**
-   * Create a new pool wallet manager instance.
-   * @constructor
-   */
-  constructor () {
-    super()
+	/**
+	 * Create a new pool wallet manager instance.
+	 * @constructor
+	 */
+	constructor() {
+		super()
 
-    this.emitEvents = false
-  }
+		this.emitEvents = false
+	}
 
-  /**
-   * Get a wallet by the given address. If wallet is not found it is copied from blockchain wallet manager
-   * Method overrides base class method from WalletManager.
-   * WARNING: call only upon guard apply, as if wallet not found it gets it from blockchain.
-   * For existing key checks use function exists(key)
-   * @param  {String} address
-   * @return {(Wallet|null)}
-   */
-  findByAddress (address) {
-    if (!this.byAddress[address]) {
-      const blockchainWallet = database.walletManager.findByAddress(address)
-      const wallet = Object.assign(new Wallet(address), blockchainWallet) // do not modify
+	/**
+	 * Get a wallet by the given address. If wallet is not found it is copied from blockchain wallet manager
+	 * Method overrides base class method from WalletManager.
+	 * WARNING: call only upon guard apply, as if wallet not found it gets it from blockchain.
+	 * For existing key checks use function exists(key)
+	 * @param  {String} address
+	 * @return {(Wallet|null)}
+	 */
+	findByAddress(address) {
+		if (!this.byAddress[address]) {
+			const blockchainWallet = database.walletManager.findByAddress(address)
+			const wallet = Object.assign(new Wallet(address), blockchainWallet) // do not modify
 
-      this.reindex(wallet)
-    }
+			this.reindex(wallet)
+		}
 
-    return this.byAddress[address]
-  }
+		return this.byAddress[address]
+	}
 
-  /**
-   * Checks if wallet exits in pool wallet manager
-   * Method overrides base class method from WalletManager.
-   * @param  {String} key can be publicKey or address of wallet
-   * @return {Boolean} true if exists
-   */
-  exists (key) {
-    if (this.byPublicKey[key]) {
-      return true
-    }
+	/**
+	 * Checks if wallet exits in pool wallet manager
+	 * Method overrides base class method from WalletManager.
+	 * @param  {String} key can be publicKey or address of wallet
+	 * @return {Boolean} true if exists
+	 */
+	exists(key) {
+		if (this.byPublicKey[key]) {
+			return true
+		}
 
-    if (this.byAddress[key]) {
-      return true
-    }
-    return false
-  }
+		if (this.byAddress[key]) {
+			return true
+		}
+		return false
+	}
 
-  deleteWallet (publicKey) {
-    this.forgetByPublicKey(publicKey)
-    this.forgetByAddress(crypto.getAddress(publicKey, config.network.pubKeyHash))
-  }
+	deleteWallet(publicKey) {
+		this.forgetByPublicKey(publicKey)
+		this.forgetByAddress(crypto.getAddress(publicKey, config.network.pubKeyHash))
+	}
 
-  /**
-   * Apply the given transaction to a wallet. A combination of pool wallet and blockchain wallet manager is used.
-   * @param  {Transaction} transaction
-   * @return {Transaction}
-   */
-  applyPoolTransaction (transaction) { /* eslint padded-blocks: "off" */
-    const { data } = transaction
-    const { type, asset, recipientId, senderPublicKey } = data
+	/**
+	 * Apply the given transaction to a wallet. A combination of pool wallet and blockchain wallet manager is used.
+	 * @param  {Transaction} transaction
+	 * @return {Transaction}
+	 */
+	applyPoolTransaction(transaction) {
+		/* eslint padded-blocks: "off" */
+		const { data } = transaction
+		const { type, asset, recipientId, senderPublicKey } = data
 
-    const sender = this.findByPublicKey(senderPublicKey)
-    let recipient = recipientId ? this.findByAddress(recipientId) : null
+		const sender = this.findByPublicKey(senderPublicKey)
+		let recipient = recipientId ? this.findByAddress(recipientId) : null
 
-    if (!recipient && recipientId) { // cold wallet
-      recipient = new Wallet(recipientId)
-      this.setByAddress(recipientId, recipient)
-    }
+		if (!recipient && recipientId) {
+			// cold wallet
+			recipient = new Wallet(recipientId)
+			this.setByAddress(recipientId, recipient)
+		}
 
-    if (type === TRANSACTION_TYPES.DELEGATE_REGISTRATION && database.walletManager.byUsername[asset.delegate.username.toLowerCase()]) {
+		if (
+			type === TRANSACTION_TYPES.DELEGATE_REGISTRATION &&
+			database.walletManager.byUsername[asset.delegate.username.toLowerCase()]
+		) {
+			logger.error(
+				`[PoolWalletManager] Can't apply transaction ${data.id}: delegate name already taken.`,
+				JSON.stringify(data),
+			)
+			throw new Error(`[PoolWalletManager] Can't apply transaction ${data.id}: delegate name already taken.`)
 
-      logger.error(`[PoolWalletManager] Can't apply transaction ${data.id}: delegate name already taken.`, JSON.stringify(data))
-      throw new Error(`[PoolWalletManager] Can't apply transaction ${data.id}: delegate name already taken.`)
+			// NOTE: We use the vote public key, because vote transactions have the same sender and recipient
+		} else if (type === TRANSACTION_TYPES.VOTE && !database.walletManager.__isDelegate(asset.votes[0].slice(1))) {
+			logger.error(
+				`[PoolWalletManager] Can't apply vote transaction: delegate ${asset.votes[0]} does not exist.`,
+				JSON.stringify(data),
+			)
+			throw new Error(
+				`[PoolWalletManager] Can't apply transaction ${data.id}: delegate ${asset.votes[0]} does not exist.`,
+			)
+		} else if (this.__isException(data)) {
+			logger.warn('Transaction forcibly applied because it has been added as an exception:', data)
+		} else if (!sender.canApply(data)) {
+			logger.error(`[PoolWalletManager] Can't apply transaction for ${sender.address}: ` + JSON.stringify(data))
+			logger.debug('[PoolWalletManager] Audit: ' + JSON.stringify(sender.auditApply(data), null, 2))
+			throw new Error(`[PoolWalletManager] Can't apply transaction ${data.id}`)
+		}
 
-    // NOTE: We use the vote public key, because vote transactions have the same sender and recipient
-    } else if (type === TRANSACTION_TYPES.VOTE && !database.walletManager.__isDelegate(asset.votes[0].slice(1))) {
+		sender.applyTransactionToSender(data)
 
-      logger.error(`[PoolWalletManager] Can't apply vote transaction: delegate ${asset.votes[0]} does not exist.`, JSON.stringify(data))
-      throw new Error(`[PoolWalletManager] Can't apply transaction ${data.id}: delegate ${asset.votes[0]} does not exist.`)
+		if (recipient && type === TRANSACTION_TYPES.TRANSFER) {
+			recipient.applyTransactionToRecipient(data)
+		}
 
-    } else if (this.__isException(data)) {
+		return transaction
+	}
 
-      logger.warn('Transaction forcibly applied because it has been added as an exception:', data)
-
-    } else if (!sender.canApply(data)) {
-
-      logger.error(`[PoolWalletManager] Can't apply transaction for ${sender.address}: ` + JSON.stringify(data))
-      logger.debug('[PoolWalletManager] Audit: ' + JSON.stringify(sender.auditApply(data), null, 2))
-      throw new Error(`[PoolWalletManager] Can't apply transaction ${data.id}`)
-    }
-
-    sender.applyTransactionToSender(data)
-
-    if (recipient && type === TRANSACTION_TYPES.TRANSFER) {
-      recipient.applyTransactionToRecipient(data)
-    }
-
-    return transaction
-  }
-
-  /**
-   * Apply the given block to a delegate in the pool wallet manager.
-   * We apply only the block reward and fees, as transaction are already be applied
-   * when entering the pool. Applying only if delegate wallet is in pool wallet manager
-   * @param {block}
-   */
-  applyPoolBlock (block) {
-    // if delegate in poll wallet manager - apply rewards
-    if (this.exists(block.data.generatorPublicKey)) {
-      const delegateWallet = this.findByPublicKey(block.data.generatorPublicKey)
-      delegateWallet.applyBlock(block.data)
-    }
-  }
+	/**
+	 * Apply the given block to a delegate in the pool wallet manager.
+	 * We apply only the block reward and fees, as transaction are already be applied
+	 * when entering the pool. Applying only if delegate wallet is in pool wallet manager
+	 * @param {block}
+	 */
+	applyPoolBlock(block) {
+		// if delegate in poll wallet manager - apply rewards
+		if (this.exists(block.data.generatorPublicKey)) {
+			const delegateWallet = this.findByPublicKey(block.data.generatorPublicKey)
+			delegateWallet.applyBlock(block.data)
+		}
+	}
 }

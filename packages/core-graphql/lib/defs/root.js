@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * Necessary for the GraphQL engine to have a root schema and a base query.

@@ -14,27 +14,29 @@ yarn add @arkecosystem/core-logger-winston
 
 ```js
 module.exports = {
-  transports: {
-    console: {
-      constructor: 'Console',
-      options: {
-        level: process.env.ARK_LOG_LEVEL || 'debug',
-        format: require('./formatter')
-      }
-    },
-    dailyRotate: {
-      package: 'winston-daily-rotate-file',
-      constructor: 'DailyRotateFile',
-      options: {
-        level: process.env.ARK_LOG_LEVEL || 'debug',
-        filename: process.env.ARK_LOG_FILE || `${process.env.ARK_PATH_DATA}/logs/core/${process.env.ARK_NETWORK_NAME}/%DATE%.log`,
-        datePattern: 'YYYY-MM-DD',
-        zippedArchive: true,
-        maxSize: '100m',
-        maxFiles: '10'
-      }
-    }
-  }
+	transports: {
+		console: {
+			constructor: 'Console',
+			options: {
+				level: process.env.ARK_LOG_LEVEL || 'debug',
+				format: require('./formatter'),
+			},
+		},
+		dailyRotate: {
+			package: 'winston-daily-rotate-file',
+			constructor: 'DailyRotateFile',
+			options: {
+				level: process.env.ARK_LOG_LEVEL || 'debug',
+				filename:
+					process.env.ARK_LOG_FILE ||
+					`${process.env.ARK_PATH_DATA}/logs/core/${process.env.ARK_NETWORK_NAME}/%DATE%.log`,
+				datePattern: 'YYYY-MM-DD',
+				zippedArchive: true,
+				maxSize: '100m',
+				maxFiles: '10',
+			},
+		},
+	},
 }
 ```
 
@@ -44,9 +46,9 @@ If you discover a security vulnerability within this package, please send an e-m
 
 ## Credits
 
-- [François-Xavier Thoorens](https://github.com/fix)
-- [Brian Faust](https://github.com/faustbrian)
-- [All Contributors](../../../../contributors)
+-   [François-Xavier Thoorens](https://github.com/fix)
+-   [Brian Faust](https://github.com/faustbrian)
+-   [All Contributors](../../../../contributors)
 
 ## License
 

@@ -14,34 +14,34 @@ const monitor = require('../../../monitor')
  * @return {void}
  */
 const register = async (server, options) => {
-  const isKnown = value => {
-    return monitor.getPeers().find(peer => (peer.ip === value))
-  }
+	const isKnown = value => {
+		return monitor.getPeers().find(peer => peer.ip === value)
+	}
 
-  server.ext({
-    type: 'onRequest',
-    async method (request, h) {
-      const remoteAddress = requestIp.getClientIp(request)
+	server.ext({
+		type: 'onRequest',
+		async method(request, h) {
+			const remoteAddress = requestIp.getClientIp(request)
 
-      if (isWhitelist(['127.*'], remoteAddress)) {
-        return h.continue
-      }
+			if (isWhitelist(['127.*'], remoteAddress)) {
+				return h.continue
+			}
 
-      if (!bucket.has(remoteAddress)) {
-        bucket.add(remoteAddress, isKnown(remoteAddress) ? 2000 : 1)
-      }
+			if (!bucket.has(remoteAddress)) {
+				bucket.add(remoteAddress, isKnown(remoteAddress) ? 2000 : 1)
+			}
 
-      bucket.decrement(remoteAddress)
+			bucket.decrement(remoteAddress)
 
-      if (bucket.remaining(remoteAddress) <= 0) {
-        logger.debug(`${remoteAddress} has exceeded the maximum number of requests per minute.`)
+			if (bucket.remaining(remoteAddress) <= 0) {
+				logger.debug(`${remoteAddress} has exceeded the maximum number of requests per minute.`)
 
-        return Boom.tooManyRequests()
-      }
+				return Boom.tooManyRequests()
+			}
 
-      return h.continue
-    }
-  })
+			return h.continue
+		},
+	})
 }
 
 /**
@@ -49,7 +49,7 @@ const register = async (server, options) => {
  * @type {Object}
  */
 exports.plugin = {
-  name: 'throttle',
-  version: '0.1.0',
-  register
+	name: 'throttle',
+	version: '0.1.0',
+	register,
 }

@@ -9,7 +9,7 @@ const Boom = require('boom')
  * @return {Object}
  */
 const transformResource = (request, data) => {
-  return require('./transformer')(data)
+	return require('./transformer')(data)
 }
 
 /**
@@ -20,7 +20,7 @@ const transformResource = (request, data) => {
  * @return {Array}
  */
 const transformCollection = (request, data, transformer) => {
-  return data.map((d) => transformResource(request, d, transformer))
+	return data.map(d => transformResource(request, d, transformer))
 }
 
 /**
@@ -28,11 +28,11 @@ const transformCollection = (request, data, transformer) => {
  * @param  {Hapi.Request} request
  * @return {Object}
  */
-const paginate = (request) => {
-  return {
-    offset: (request.query.page - 1) * request.query.limit,
-    limit: request.query.limit
-  }
+const paginate = request => {
+	return {
+		offset: (request.query.page - 1) * request.query.limit,
+		limit: request.query.limit,
+	}
 }
 
 /**
@@ -43,9 +43,7 @@ const paginate = (request) => {
  * @return {Hapi.Response}
  */
 const respondWithResource = (request, data, transformer) => {
-  return data
-    ? { data: transformResource(request, data, transformer) }
-    : Boom.notFound()
+	return data ? { data: transformResource(request, data, transformer) } : Boom.notFound()
 }
 
 /**
@@ -56,7 +54,7 @@ const respondWithResource = (request, data, transformer) => {
  * @return {Object}
  */
 const respondWithCollection = (request, data, transformer) => {
-  return { data: transformCollection(request, data, transformer) }
+	return { data: transformCollection(request, data, transformer) }
 }
 
 /**
@@ -67,7 +65,7 @@ const respondWithCollection = (request, data, transformer) => {
  * @return {Hapi.Response}
  */
 const toResource = (request, data, transformer) => {
-  return transformResource(request, data, transformer)
+	return transformResource(request, data, transformer)
 }
 
 /**
@@ -78,7 +76,7 @@ const toResource = (request, data, transformer) => {
  * @return {Hapi.Response}
  */
 const toCollection = (request, data, transformer) => {
-  return transformCollection(request, data, transformer)
+	return transformCollection(request, data, transformer)
 }
 
 /**
@@ -89,22 +87,22 @@ const toCollection = (request, data, transformer) => {
  * @return {Hapi.Response}
  */
 const toPagination = (request, data, transformer) => {
-  return {
-    results: transformCollection(request, data.rows, transformer),
-    totalCount: data.count
-  }
+	return {
+		results: transformCollection(request, data.rows, transformer),
+		totalCount: data.count,
+	}
 }
 
 /**
  * @type {Object}
  */
 module.exports = {
-  transformResource,
-  transformCollection,
-  paginate,
-  respondWithResource,
-  respondWithCollection,
-  toResource,
-  toCollection,
-  toPagination
+	transformResource,
+	transformCollection,
+	paginate,
+	respondWithResource,
+	respondWithCollection,
+	toResource,
+	toCollection,
+	toPagination,
 }

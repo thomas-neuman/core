@@ -5,17 +5,17 @@
  * @param  {AJV} ajv
  * @return {void}
  */
-module.exports = (ajv) => {
-  ajv.addFormat('parsedInt', {
-    type: 'string',
-    validate: (value) => {
-      if (isNaN(value) || parseInt(value) !== value || isNaN(parseInt(value, 10))) {
-        return false
-      }
+module.exports = ajv => {
+	ajv.addFormat('parsedInt', {
+		type: 'string',
+		validate: value => {
+			if (isNaN(value) || parseInt(value) !== value || isNaN(parseInt(value, 10))) {
+				return false
+			}
 
-      value = parseInt(value)
+			value = parseInt(value)
 
-      return true
-    }
-  })
+			return true
+		},
+	})
 }

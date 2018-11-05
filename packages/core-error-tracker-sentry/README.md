@@ -16,10 +16,10 @@ yarn add @arkecosystem/core-error-tracker-sentry
 
 ```js
 module.exports = {
-  dsn: process.env.ARK_ERROR_TRACKER_SENTRY_DSN,
-  debug: true,
-  attachStacktrace: true,
-  environment: process.env.ARK_NETWORK_NAME
+	dsn: process.env.ARK_ERROR_TRACKER_SENTRY_DSN,
+	debug: true,
+	attachStacktrace: true,
+	environment: process.env.ARK_NETWORK_NAME,
 }
 ```
 
@@ -29,8 +29,8 @@ If you discover a security vulnerability within this package, please send an e-m
 
 ## Credits
 
-- [Brian Faust](https://github.com/faustbrian)
-- [All Contributors](../../../../contributors)
+-   [Brian Faust](https://github.com/faustbrian)
+-   [All Contributors](../../../../contributors)
 
 ## License
 

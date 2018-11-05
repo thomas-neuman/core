@@ -14,8 +14,8 @@ yarn add @arkecosystem/core-vote-report
 
 ```js
 module.exports = {
-  host: process.env.ARK_VOTE_REPORT_HOST || '0.0.0.0',
-  port: process.env.ARK_VOTE_REPORT_PORT || 4006
+	host: process.env.ARK_VOTE_REPORT_HOST || '0.0.0.0',
+	port: process.env.ARK_VOTE_REPORT_PORT || 4006,
 }
 ```
 
@@ -25,8 +25,8 @@ If you discover a security vulnerability within this package, please send an e-m
 
 ## Credits
 
-- [Brian Faust](https://github.com/faustbrian)
-- [All Contributors](../../../../contributors)
+-   [Brian Faust](https://github.com/faustbrian)
+-   [All Contributors](../../../../contributors)
 
 ## License
 

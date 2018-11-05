@@ -10,20 +10,20 @@ const container = require('@arkecosystem/core-container')
  * @return {void}
  */
 const register = async (server, options) => {
-  server.ext({
-    type: 'onRequest',
-    async method (request, h) {
-      if (!options.routes.includes(request.path)) {
-        return h.continue
-      }
+	server.ext({
+		type: 'onRequest',
+		async method(request, h) {
+			if (!options.routes.includes(request.path)) {
+				return h.continue
+			}
 
-      if (!container.resolvePlugin('blockchain')) {
-        return Boom.serverUnavailable('Blockchain not ready')
-      }
+			if (!container.resolvePlugin('blockchain')) {
+				return Boom.serverUnavailable('Blockchain not ready')
+			}
 
-      return h.continue
-    }
-  })
+			return h.continue
+		},
+	})
 }
 
 /**
@@ -31,7 +31,7 @@ const register = async (server, options) => {
  * @type {Object}
  */
 exports.plugin = {
-  name: 'blockchain-ready',
-  version: '0.1.0',
-  register
+	name: 'blockchain-ready',
+	version: '0.1.0',
+	register,
 }

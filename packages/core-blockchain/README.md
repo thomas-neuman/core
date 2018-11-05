@@ -14,12 +14,12 @@ yarn add @arkecosystem/core-blockchain
 
 ```js
 module.exports = {
-  version: '2.0.0',
-  fastRebuild: false,
-  databaseRollback: {
-    maxBlockRewind: 10000,
-    steps: 1000
-  }
+	version: '2.0.0',
+	fastRebuild: false,
+	databaseRollback: {
+		maxBlockRewind: 10000,
+		steps: 1000,
+	},
 }
 ```
 
@@ -29,10 +29,10 @@ If you discover a security vulnerability within this package, please send an e-m
 
 ## Credits
 
-- [François-Xavier Thoorens](https://github.com/fix)
-- [Kristjan Košič](https://github.com/kristjank)
-- [Brian Faust](https://github.com/faustbrian)
-- [All Contributors](../../../../contributors)
+-   [François-Xavier Thoorens](https://github.com/fix)
+-   [Kristjan Košič](https://github.com/kristjank)
+-   [Brian Faust](https://github.com/faustbrian)
+-   [All Contributors](../../../../contributors)
 
 ## License
 

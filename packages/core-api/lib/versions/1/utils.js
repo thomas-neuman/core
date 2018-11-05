@@ -8,10 +8,10 @@ const { transformResource, transformCollection } = require('../../utils/transfor
  * @return {Object}
  */
 const paginate = request => {
-  return {
-    offset: request.query.offset || 0,
-    limit: request.query.limit || 100
-  }
+	return {
+		offset: request.query.offset || 0,
+		limit: request.query.limit || 100,
+	}
 }
 
 /**
@@ -21,9 +21,7 @@ const paginate = request => {
  * @return {Object}
  */
 const respondWith = (data, error = false) => {
-  return error
-    ? { error: data, success: false }
-    : { ...data, success: true }
+	return error ? { error: data, success: false } : { ...data, success: true }
 }
 
 /**
@@ -34,7 +32,7 @@ const respondWith = (data, error = false) => {
  * @return {Object}
  */
 const toResource = (request, data, transformer) => {
-  return transformResource(request, data, transformer)
+	return transformResource(request, data, transformer)
 }
 
 /**
@@ -50,8 +48,8 @@ const toCollection = transformCollection
  * @type {Object}
  */
 module.exports = {
-  paginate,
-  respondWith,
-  toResource,
-  toCollection
+	paginate,
+	respondWith,
+	toResource,
+	toCollection,
 }

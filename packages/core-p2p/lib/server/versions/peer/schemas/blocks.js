@@ -6,25 +6,27 @@ const Joi = require('joi')
  * @type {Object}
  */
 exports.index = {
-  query: {
-    height: Joi.number().integer().optional()
-  }
+	query: {
+		height: Joi.number()
+			.integer()
+			.optional(),
+	},
 }
 
 /**
  * @type {Object}
  */
 exports.store = {
-  payload: {
-    block: Joi.object()
-  }
+	payload: {
+		block: Joi.object(),
+	},
 }
 
 /**
  * @type {Object}
  */
 exports.common = {
-  query: {
-    blocks: Joi.string()
-  }
+	query: {
+		blocks: Joi.string(),
+	},
 }

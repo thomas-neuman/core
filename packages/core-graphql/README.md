@@ -14,11 +14,11 @@ yarn add @arkecosystem/core-graphql
 
 ```js
 module.exports = {
-  enabled: !process.env.ARK_GRAPHQL_DISABLED,
-  host: process.env.ARK_GRAPHQL_HOST || '0.0.0.0',
-  port: process.env.ARK_GRAPHQL_PORT || 4005,
-  path: '/graphql',
-  graphiql: true
+	enabled: !process.env.ARK_GRAPHQL_DISABLED,
+	host: process.env.ARK_GRAPHQL_HOST || '0.0.0.0',
+	port: process.env.ARK_GRAPHQL_PORT || 4005,
+	path: '/graphql',
+	graphiql: true,
 }
 ```
 
@@ -29,14 +29,15 @@ You can play with the data using the [GraphQL Playground](https://github.com/pri
 #### Query Examples
 
 > Get first blocks
+
 ```gql
 {
-  blocks(orderBy: {field: "height", direction: ASC}) {
-    id,
-    payloadHash,
-    height,
-    numberOfTransactions
-  }
+	blocks(orderBy: { field: "height", direction: ASC }) {
+		id
+		payloadHash
+		height
+		numberOfTransactions
+	}
 }
 ```
 
@@ -44,15 +45,15 @@ You can play with the data using the [GraphQL Playground](https://github.com/pri
 
 ```gql
 {
-  block(id: "13114381566690093367") {
-    timestamp,
-    generatorPublicKey,
-    transactions {
-      id,
-      type,
-      amount
-    }
-  }
+	block(id: "13114381566690093367") {
+		timestamp
+		generatorPublicKey
+		transactions {
+			id
+			type
+			amount
+		}
+	}
 }
 ```
 
@@ -60,16 +61,16 @@ You can play with the data using the [GraphQL Playground](https://github.com/pri
 
 ```gql
 {
-  block(id: "13114381566690093367") {
-    generatorPublicKey,
-    transactions {
-      id,
-      recipient {
-        address,
-        balance
-      }
-    }
-  }
+	block(id: "13114381566690093367") {
+		generatorPublicKey
+		transactions {
+			id
+			recipient {
+				address
+				balance
+			}
+		}
+	}
 }
 ```
 
@@ -79,8 +80,8 @@ If you discover a security vulnerability within this package, please send an e-m
 
 ## Credits
 
-- [Lúcio Rubens](https://github.com/luciorubeens)
-- [All Contributors](../../../../contributors)
+-   [Lúcio Rubens](https://github.com/luciorubeens)
+-   [All Contributors](../../../../contributors)
 
 ## License
 

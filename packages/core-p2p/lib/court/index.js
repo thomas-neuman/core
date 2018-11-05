@@ -1,5 +1,5 @@
 'use strict'
 
 module.exports = {
-  guard: require('./guard')
+	guard: require('./guard'),
 }

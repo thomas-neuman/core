@@ -7,14 +7,14 @@ const databaseManager = require('./manager')
  * @type {Object}
  */
 exports.plugin = {
-  pkg: require('../package.json'),
-  defaults: require('./defaults'),
-  alias: 'databaseManager',
-  async register (container, options) {
-    container.resolvePlugin('logger').info('Starting Database Manager')
+	pkg: require('../package.json'),
+	defaults: require('./defaults'),
+	alias: 'databaseManager',
+	async register(container, options) {
+		container.resolvePlugin('logger').info('Starting Database Manager')
 
-    return databaseManager
-  }
+		return databaseManager
+	},
 }
 
 /**

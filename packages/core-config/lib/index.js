@@ -8,13 +8,13 @@ const loader = require('./loader')
  * @type {Object}
  */
 exports.plugin = {
-  pkg: require('../package.json'),
-  alias: 'config',
-  async register (container, options) {
-    const config = await loader.setUp(options)
+	pkg: require('../package.json'),
+	alias: 'config',
+	async register(container, options) {
+		const config = await loader.setUp(options)
 
-    client.setConfig(config.network)
+		client.setConfig(config.network)
 
-    return config
-  }
+		return config
+	},
 }

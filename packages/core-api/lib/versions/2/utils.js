@@ -8,17 +8,17 @@ const { transformResource, transformCollection } = require('../../utils/transfor
  * @param  {Hapi.Request} request
  * @return {Object}
  */
-const paginate = (request) => {
-  let pagination = {
-    offset: (request.query.page - 1) * request.query.limit || 0,
-    limit: request.query.limit || 100
-  }
+const paginate = request => {
+	let pagination = {
+		offset: (request.query.page - 1) * request.query.limit || 0,
+		limit: request.query.limit || 100,
+	}
 
-  if (request.query.offset) {
-    pagination.offset = request.query.offset
-  }
+	if (request.query.offset) {
+		pagination.offset = request.query.offset
+	}
 
-  return pagination
+	return pagination
 }
 
 /**
@@ -29,9 +29,7 @@ const paginate = (request) => {
  * @return {Object}
  */
 const respondWithResource = (request, data, transformer) => {
-  return data
-    ? { data: transformResource(request, data, transformer) }
-    : Boom.notFound()
+	return data ? { data: transformResource(request, data, transformer) } : Boom.notFound()
 }
 
 /**
@@ -42,7 +40,7 @@ const respondWithResource = (request, data, transformer) => {
  * @return {Object}
  */
 const respondWithCollection = (request, data, transformer) => {
-  return { data: transformCollection(request, data, transformer) }
+	return { data: transformCollection(request, data, transformer) }
 }
 
 /**
@@ -53,7 +51,7 @@ const respondWithCollection = (request, data, transformer) => {
  * @return {Object}
  */
 const toResource = (request, data, transformer) => {
-  return transformResource(request, data, transformer)
+	return transformResource(request, data, transformer)
 }
 
 /**
@@ -64,7 +62,7 @@ const toResource = (request, data, transformer) => {
  * @return {Object}
  */
 const toCollection = (request, data, transformer) => {
-  return transformCollection(request, data, transformer)
+	return transformCollection(request, data, transformer)
 }
 
 /**
@@ -75,20 +73,20 @@ const toCollection = (request, data, transformer) => {
  * @return {Object}
  */
 const toPagination = (request, data, transformer) => {
-  return {
-    results: transformCollection(request, data.rows, transformer),
-    totalCount: data.count
-  }
+	return {
+		results: transformCollection(request, data.rows, transformer),
+		totalCount: data.count,
+	}
 }
 
 /**
  * @type {Object}
  */
 module.exports = {
-  paginate,
-  respondWithResource,
-  respondWithCollection,
-  toResource,
-  toCollection,
-  toPagination
+	paginate,
+	respondWithResource,
+	respondWithCollection,
+	toResource,
+	toCollection,
+	toPagination,
 }

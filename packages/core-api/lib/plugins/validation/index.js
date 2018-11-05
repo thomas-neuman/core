@@ -15,8 +15,8 @@ const ajv = new AJV()
  * @param  {Object} data
  * @return {(Boolean|Object)}
  */
-function validate (schema, data) {
-  return ajv.validate(schema, data) ? null : ajv.errors
+function validate(schema, data) {
+	return ajv.validate(schema, data) ? null : ajv.errors
 }
 
 /**
@@ -26,29 +26,31 @@ function validate (schema, data) {
  * @param  {Array} errors
  * @return {Hapi.Response}
  */
-function createErrorResponse (request, h, errors) {
-  if (request.pre.apiVersion === 1) {
-    return h.response({
-      path: errors[0].dataPath,
-      error: errors[0].message,
-      success: false
-    }).takeover()
-  }
-  return Boom.badData(errors)
+function createErrorResponse(request, h, errors) {
+	if (request.pre.apiVersion === 1) {
+		return h
+			.response({
+				path: errors[0].dataPath,
+				error: errors[0].message,
+				success: false,
+			})
+			.takeover()
+	}
+	return Boom.badData(errors)
 }
 
 /**
  * Register all custom validation formats
  * @return {void}
  */
-function registerCustomFormats () {
-  let directory = path.resolve(__dirname, 'formats')
+function registerCustomFormats() {
+	let directory = path.resolve(__dirname, 'formats')
 
-  fs.readdirSync(directory).forEach(file => {
-    if (file.indexOf('.js') !== -1) {
-      require(directory + '/' + file)(ajv)
-    }
-  })
+	fs.readdirSync(directory).forEach(file => {
+		if (file.indexOf('.js') !== -1) {
+			require(directory + '/' + file)(ajv)
+		}
+	})
 }
 
 /**
@@ -58,34 +60,34 @@ function registerCustomFormats () {
  * @return {void}
  */
 const register = async (server, options) => {
-  registerCustomFormats()
+	registerCustomFormats()
 
-  server.ext({
-    type: 'onPreHandler',
-    method: (request, h) => {
-      const config = request.route.settings.plugins[PLUGIN_NAME] || {}
+	server.ext({
+		type: 'onPreHandler',
+		method: (request, h) => {
+			const config = request.route.settings.plugins[PLUGIN_NAME] || {}
 
-      let errors
+			let errors
 
-      if (config.payloadSchema) {
-        errors = validate(config.payloadSchema, request.payload)
+			if (config.payloadSchema) {
+				errors = validate(config.payloadSchema, request.payload)
 
-        if (errors) {
-          return createErrorResponse(request, h, errors)
-        }
-      }
+				if (errors) {
+					return createErrorResponse(request, h, errors)
+				}
+			}
 
-      if (config.querySchema) {
-        errors = validate(config.querySchema, request.query)
+			if (config.querySchema) {
+				errors = validate(config.querySchema, request.query)
 
-        if (errors) {
-          return createErrorResponse(request, h, errors)
-        }
-      }
+				if (errors) {
+					return createErrorResponse(request, h, errors)
+				}
+			}
 
-      return h.continue
-    }
-  })
+			return h.continue
+		},
+	})
 }
 
 /**
@@ -93,7 +95,7 @@ const register = async (server, options) => {
  * @type {Object}
  */
 exports.plugin = {
-  name: PLUGIN_NAME,
-  version: '0.1.0',
-  register
+	name: PLUGIN_NAME,
+	version: '0.1.0',
+	register,
 }

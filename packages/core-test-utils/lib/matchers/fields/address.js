@@ -9,12 +9,12 @@ const { crypto } = require('@arkecosystem/crypto')
  * @return {Boolean}
  */
 const toBeArkAddress = (received, argument) => {
-  return {
-    message: () => 'Expected value to be a valid address',
-    pass: crypto.validateAddress(received, argument)
-  }
+	return {
+		message: () => 'Expected value to be a valid address',
+		pass: crypto.validateAddress(received, argument),
+	}
 }
 
 expect.extend({
-  toBeArkAddress
+	toBeArkAddress,
 })

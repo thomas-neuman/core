@@ -1,4 +1,4 @@
 module.exports = {
-  blocks: require('./blocks'),
-  transactions: require('./transactions')
+	blocks: require('./blocks'),
+	transactions: require('./transactions'),
 }
